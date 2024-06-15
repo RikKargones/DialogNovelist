@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/SearchLine.gd" type="Script" id=1]
+
+[node name="SearchLine" type="HBoxContainer"]
+margin_right = 250.0
+margin_bottom = 30.0
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = 7.0
+margin_right = 36.0
+margin_bottom = 22.0
+text = "Search:"
+
+[node name="SearchEdit" type="LineEdit" parent="."]
+margin_left = 40.0
+margin_right = 250.0
+margin_bottom = 30.0
+size_flags_horizontal = 3

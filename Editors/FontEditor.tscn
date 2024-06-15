@@ -1,0 +1,558 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Editors/FontEditor.gd" type="Script" id=1]
+[ext_resource path="res://UI/Fonts/FinladicaFont/Finlandica-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI/Fonts/FinladicaFont/Finlandica-Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://UI/Fonts/FinladicaFont/Finlandica-Italic.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://UI/Fonts/FinladicaFont/Finlandica-BoldItalic.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://UI/PickableList.tscn" type="PackedScene" id=6]
+[ext_resource path="res://UI/Fonts/MainEditorFontBold.tres" type="DynamicFont" id=7]
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=8]
+[ext_resource path="res://UI/HideButton.gd" type="Script" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+
+[node name="FontsEditor" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 3.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+
+[node name="Left" type="PanelContainer" parent="."]
+margin_right = 627.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="List" type="VBoxContainer" parent="Left"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 620.0
+margin_bottom = 593.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CompareSetting" type="VBoxContainer" parent="Left/List"]
+margin_right = 613.0
+margin_bottom = 97.0
+
+[node name="HSeparator4" type="HSeparator" parent="Left/List/CompareSetting"]
+margin_right = 613.0
+margin_bottom = 4.0
+
+[node name="Label3" type="Label" parent="Left/List/CompareSetting"]
+margin_top = 8.0
+margin_right = 613.0
+margin_bottom = 23.0
+text = "Compare Size:"
+align = 1
+
+[node name="HSeparator5" type="HSeparator" parent="Left/List/CompareSetting"]
+margin_top = 27.0
+margin_right = 613.0
+margin_bottom = 31.0
+
+[node name="TestField" type="GridContainer" parent="Left/List/CompareSetting"]
+margin_top = 35.0
+margin_right = 613.0
+margin_bottom = 89.0
+columns = 2
+
+[node name="Setting" type="HBoxContainer" parent="Left/List/CompareSetting/TestField"]
+margin_right = 305.0
+margin_bottom = 25.0
+
+[node name="Label" type="Label" parent="Left/List/CompareSetting/TestField/Setting"]
+margin_top = 5.0
+margin_right = 25.0
+margin_bottom = 20.0
+text = "Font:"
+
+[node name="FontPick" parent="Left/List/CompareSetting/TestField/Setting" instance=ExtResource( 8 )]
+margin_left = 29.0
+margin_right = 149.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="Left/List/CompareSetting/TestField/Setting"]
+margin_left = 153.0
+margin_top = 5.0
+margin_right = 180.0
+margin_bottom = 20.0
+text = "Type:"
+
+[node name="TypePick" parent="Left/List/CompareSetting/TestField/Setting" instance=ExtResource( 8 )]
+margin_left = 184.0
+margin_right = 305.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="CompareUp" type="LineEdit" parent="Left/List/CompareSetting/TestField"]
+margin_left = 309.0
+margin_right = 613.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+placeholder_text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ !&\"()*:"
+
+[node name="CompareLeft" type="LineEdit" parent="Left/List/CompareSetting/TestField"]
+margin_top = 29.0
+margin_right = 305.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+placeholder_text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ !&\"()*:"
+
+[node name="WithFont" type="LineEdit" parent="Left/List/CompareSetting/TestField"]
+margin_left = 309.0
+margin_top = 29.0
+margin_right = 613.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+placeholder_text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ !&\"()*:"
+
+[node name="HSeparator6" type="HSeparator" parent="Left/List/CompareSetting"]
+margin_top = 93.0
+margin_right = 613.0
+margin_bottom = 97.0
+
+[node name="Label" type="Label" parent="Left/List"]
+margin_top = 101.0
+margin_right = 613.0
+margin_bottom = 116.0
+text = "Paronims"
+align = 1
+
+[node name="HSeparator3" type="HSeparator" parent="Left/List"]
+margin_top = 120.0
+margin_right = 613.0
+margin_bottom = 124.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Left/List"]
+margin_top = 128.0
+margin_right = 613.0
+margin_bottom = 337.0
+size_flags_vertical = 3
+
+[node name="Paronimas" type="RichTextLabel" parent="Left/List/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 606.0
+margin_bottom = 202.0
+rect_min_size = Vector2( 400, 0 )
+size_flags_vertical = 3
+custom_fonts/bold_italics_font = SubResource( 1 )
+custom_fonts/italics_font = SubResource( 2 )
+custom_fonts/bold_font = SubResource( 3 )
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "It's normal text
+[i]It's italic text[/i]
+[b]It's bold text[/b]
+[b][i]It's italic-bold text[/i][/b]"
+text = "It's normal text
+It's italic text
+It's bold text
+It's italic-bold text"
+
+[node name="HSeparator" type="HSeparator" parent="Left/List"]
+margin_top = 341.0
+margin_right = 613.0
+margin_bottom = 345.0
+
+[node name="Label2" type="Label" parent="Left/List"]
+margin_top = 349.0
+margin_right = 613.0
+margin_bottom = 364.0
+text = "Test Field"
+align = 1
+
+[node name="HSeparator2" type="HSeparator" parent="Left/List"]
+margin_top = 368.0
+margin_right = 613.0
+margin_bottom = 372.0
+
+[node name="TestEdit" type="TextEdit" parent="Left/List"]
+margin_top = 376.0
+margin_right = 613.0
+margin_bottom = 586.0
+size_flags_vertical = 3
+
+[node name="SettingsBackground" type="PanelContainer" parent="."]
+margin_left = 631.0
+margin_right = 857.0
+margin_bottom = 600.0
+size_flags_horizontal = 0
+
+[node name="Settings" type="VBoxContainer" parent="SettingsBackground"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 219.0
+margin_bottom = 593.0
+
+[node name="CurFontName" type="Label" parent="SettingsBackground/Settings"]
+margin_right = 212.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 7 )
+text = "SomeFONTedit"
+align = 1
+clip_text = true
+
+[node name="HSeparator6" type="HSeparator" parent="SettingsBackground/Settings"]
+margin_top = 19.0
+margin_right = 212.0
+margin_bottom = 23.0
+
+[node name="Scroll" type="ScrollContainer" parent="SettingsBackground/Settings"]
+margin_top = 27.0
+margin_right = 212.0
+margin_bottom = 586.0
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="FontBlocks" type="VBoxContainer" parent="SettingsBackground/Settings/Scroll"]
+margin_right = 212.0
+margin_bottom = 456.0
+size_flags_horizontal = 3
+
+[node name="FilesBlock" type="VBoxContainer" parent="SettingsBackground/Settings/Scroll/FontBlocks"]
+margin_right = 212.0
+margin_bottom = 131.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock"]
+margin_right = 212.0
+margin_bottom = 15.0
+text = "Font Files:"
+align = 1
+
+[node name="HSeparator2" type="HSeparator" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock"]
+margin_top = 19.0
+margin_right = 212.0
+margin_bottom = 23.0
+
+[node name="Files" type="GridContainer" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock"]
+margin_top = 27.0
+margin_right = 212.0
+margin_bottom = 123.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_top = 3.0
+margin_right = 109.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+text = "Font file (Normal):"
+
+[node name="NormalFontChange" type="Button" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_left = 113.0
+margin_right = 212.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "Change font file..."
+
+[node name="Label4" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_top = 28.0
+margin_right = 109.0
+margin_bottom = 43.0
+size_flags_horizontal = 3
+text = "Font file (Italic):"
+
+[node name="ItalicFontChange" type="Button" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_left = 113.0
+margin_top = 25.0
+margin_right = 212.0
+margin_bottom = 46.0
+size_flags_horizontal = 3
+text = "Set font file..."
+
+[node name="Label5" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_top = 53.0
+margin_right = 109.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+text = "Font file (Bold):"
+
+[node name="BoldFontChange" type="Button" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_left = 113.0
+margin_top = 50.0
+margin_right = 212.0
+margin_bottom = 71.0
+size_flags_horizontal = 3
+text = "Set font file..."
+
+[node name="Label6" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_top = 78.0
+margin_right = 109.0
+margin_bottom = 93.0
+size_flags_horizontal = 3
+text = "Font file (Italic-Bold):"
+
+[node name="ItalicBoldFontChange" type="Button" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files"]
+margin_left = 113.0
+margin_top = 75.0
+margin_right = 212.0
+margin_bottom = 96.0
+size_flags_horizontal = 3
+text = "Set font file..."
+
+[node name="HSeparator4" type="HSeparator" parent="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock"]
+margin_top = 127.0
+margin_right = 212.0
+margin_bottom = 131.0
+
+[node name="FontSettingsBlock" type="VBoxContainer" parent="SettingsBackground/Settings/Scroll/FontBlocks"]
+margin_top = 135.0
+margin_right = 212.0
+margin_bottom = 305.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock"]
+margin_right = 212.0
+margin_bottom = 15.0
+text = "Font Settings:"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock"]
+margin_top = 19.0
+margin_right = 212.0
+margin_bottom = 23.0
+
+[node name="FontMetrics" type="GridContainer" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock"]
+margin_top = 27.0
+margin_right = 212.0
+margin_bottom = 162.0
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label2" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_top = 5.0
+margin_right = 104.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Font Size:"
+
+[node name="FontSize" type="SpinBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_left = 108.0
+margin_right = 212.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+min_value = 8.0
+max_value = 48.0
+value = 8.0
+align = 1
+suffix = "px"
+
+[node name="Label3" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_top = 34.0
+margin_right = 104.0
+margin_bottom = 49.0
+size_flags_horizontal = 3
+text = "Outline Size:"
+
+[node name="OutlineSize" type="SpinBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_left = 108.0
+margin_top = 29.0
+margin_right = 212.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+max_value = 24.0
+align = 1
+suffix = "px"
+
+[node name="Label4" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_top = 61.0
+margin_right = 104.0
+margin_bottom = 76.0
+size_flags_horizontal = 3
+text = "Outline Color:"
+
+[node name="OutlineColor" type="ColorPickerButton" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_left = 108.0
+margin_top = 58.0
+margin_right = 212.0
+margin_bottom = 79.0
+size_flags_horizontal = 3
+
+[node name="Label5" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_top = 87.0
+margin_right = 104.0
+margin_bottom = 102.0
+size_flags_horizontal = 3
+text = "Use Minimaps:"
+
+[node name="MinimapsCheck" type="CheckBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_left = 188.0
+margin_top = 83.0
+margin_right = 212.0
+margin_bottom = 107.0
+size_flags_horizontal = 8
+
+[node name="Label6" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_top = 115.0
+margin_right = 104.0
+margin_bottom = 130.0
+size_flags_horizontal = 3
+text = "Use Filter:"
+
+[node name="FilterCheck" type="CheckBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics"]
+margin_left = 188.0
+margin_top = 111.0
+margin_right = 212.0
+margin_bottom = 135.0
+size_flags_horizontal = 8
+
+[node name="HSeparator3" type="HSeparator" parent="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock"]
+margin_top = 166.0
+margin_right = 212.0
+margin_bottom = 170.0
+
+[node name="ExtraSpacingBlock" type="VBoxContainer" parent="SettingsBackground/Settings/Scroll/FontBlocks"]
+margin_top = 309.0
+margin_right = 212.0
+margin_bottom = 456.0
+size_flags_horizontal = 3
+
+[node name="Label3" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock"]
+margin_right = 212.0
+margin_bottom = 15.0
+text = "Font Extra Spaceing:"
+align = 1
+
+[node name="HSeparator5" type="HSeparator" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock"]
+margin_top = 19.0
+margin_right = 212.0
+margin_bottom = 23.0
+
+[node name="ExtraSpacing" type="GridContainer" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock"]
+margin_top = 27.0
+margin_right = 212.0
+margin_bottom = 139.0
+size_flags_vertical = 3
+columns = 2
+
+[node name="Label" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_top = 5.0
+margin_right = 104.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Top:"
+
+[node name="Top" type="SpinBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_left = 108.0
+margin_right = 212.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+min_value = -48.0
+max_value = 48.0
+align = 1
+suffix = "px"
+
+[node name="Label2" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_top = 34.0
+margin_right = 104.0
+margin_bottom = 49.0
+size_flags_horizontal = 3
+text = "Bottom:"
+
+[node name="Bottom" type="SpinBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_left = 108.0
+margin_top = 29.0
+margin_right = 212.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+min_value = -48.0
+max_value = 48.0
+align = 1
+suffix = "px"
+
+[node name="Label3" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_top = 63.0
+margin_right = 104.0
+margin_bottom = 78.0
+size_flags_horizontal = 3
+text = "Char:"
+
+[node name="Char" type="SpinBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_left = 108.0
+margin_top = 58.0
+margin_right = 212.0
+margin_bottom = 83.0
+size_flags_horizontal = 3
+min_value = -48.0
+max_value = 48.0
+align = 1
+suffix = "px"
+
+[node name="Label4" type="Label" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_top = 92.0
+margin_right = 104.0
+margin_bottom = 107.0
+size_flags_horizontal = 3
+text = "Space:"
+
+[node name="Space" type="SpinBox" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing"]
+margin_left = 108.0
+margin_top = 87.0
+margin_right = 212.0
+margin_bottom = 112.0
+size_flags_horizontal = 3
+min_value = -48.0
+max_value = 48.0
+align = 1
+suffix = "px"
+
+[node name="HSeparator6" type="HSeparator" parent="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock"]
+margin_top = 143.0
+margin_right = 212.0
+margin_bottom = 147.0
+
+[node name="HideButton" type="Button" parent="."]
+margin_left = 861.0
+margin_right = 873.0
+margin_bottom = 600.0
+script = ExtResource( 9 )
+hide_node = NodePath("../FontList")
+on_hide_text = "<"
+on_show_text = ">"
+
+[node name="FontList" parent="." instance=ExtResource( 6 )]
+margin_left = 877.0
+margin_right = 1027.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+button_suffix = "Font"
+
+[connection signal="item_selected" from="Left/List/CompareSetting/TestField/Setting/FontPick" to="." method="_on_FontPick_item_selected"]
+[connection signal="item_selected" from="Left/List/CompareSetting/TestField/Setting/TypePick" to="." method="_on_TypePick_item_selected"]
+[connection signal="text_changed" from="Left/List/CompareSetting/TestField/CompareUp" to="." method="_on_CompareUp_text_changed"]
+[connection signal="text_changed" from="Left/List/CompareSetting/TestField/CompareLeft" to="." method="_on_CompareLeft_text_changed"]
+[connection signal="text_changed" from="Left/List/CompareSetting/TestField/WithFont" to="." method="_on_WithFont_text_changed"]
+[connection signal="pressed" from="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files/NormalFontChange" to="." method="_on_NormalFontChange_pressed"]
+[connection signal="pressed" from="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files/ItalicFontChange" to="." method="_on_ItalicFontChange_pressed"]
+[connection signal="pressed" from="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files/BoldFontChange" to="." method="_on_BoldFontChange_pressed"]
+[connection signal="pressed" from="SettingsBackground/Settings/Scroll/FontBlocks/FilesBlock/Files/ItalicBoldFontChange" to="." method="_on_ItalicBoldFontChange_pressed"]
+[connection signal="value_changed" from="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics/FontSize" to="." method="_on_FontSize_value_changed"]
+[connection signal="value_changed" from="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics/OutlineSize" to="." method="_on_OutlineSize_value_changed"]
+[connection signal="color_changed" from="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics/OutlineColor" to="." method="_on_OutlineColor_color_changed"]
+[connection signal="toggled" from="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics/MinimapsCheck" to="." method="_on_MinimapsCheck_toggled"]
+[connection signal="toggled" from="SettingsBackground/Settings/Scroll/FontBlocks/FontSettingsBlock/FontMetrics/FilterCheck" to="." method="_on_FilterCheck_toggled"]
+[connection signal="value_changed" from="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing/Top" to="." method="_on_Top_value_changed"]
+[connection signal="value_changed" from="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing/Bottom" to="." method="_on_Bottom_value_changed"]
+[connection signal="value_changed" from="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing/Char" to="." method="_on_Char_value_changed"]
+[connection signal="value_changed" from="SettingsBackground/Settings/Scroll/FontBlocks/ExtraSpacingBlock/ExtraSpacing/Space" to="." method="_on_Space_value_changed"]
+[connection signal="add_item_request" from="FontList" to="." method="_on_FontList_add_item_request"]
+[connection signal="delete_item_request" from="FontList" to="." method="_on_FontList_delete_item_request"]
+[connection signal="item_selected" from="FontList" to="." method="_on_FontList_item_selected"]
+[connection signal="rename_item_request" from="FontList" to="." method="_on_FontList_rename_item_request"]

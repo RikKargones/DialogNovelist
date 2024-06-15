@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.266667, 0.266667, 0.317647, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+expand_margin_left = 5.0
+
+[sub_resource type="StyleBoxFlat" id=2]
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[node name="DialogMap" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Node" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 0
+
+[node name="Header" type="MarginContainer" parent="Node"]
+margin_right = 268.0
+margin_bottom = 21.0
+custom_constants/margin_left = 5
+
+[node name="Panel" type="Panel" parent="Node/Header"]
+margin_left = 5.0
+margin_right = 268.0
+margin_bottom = 21.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="NameAndClose" type="HBoxContainer" parent="Node/Header"]
+margin_left = 5.0
+margin_right = 268.0
+margin_bottom = 21.0
+custom_constants/separation = 0
+
+[node name="NodeName" type="Label" parent="Node/Header/NameAndClose"]
+margin_top = 3.0
+margin_right = 245.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+text = "nscnkjcsjkcknscnscnkcsn"
+
+[node name="CloseBt" type="Button" parent="Node/Header/NameAndClose"]
+margin_left = 245.0
+margin_right = 263.0
+margin_bottom = 21.0
+text = "X"
+flat = true
+
+[node name="Control" type="MarginContainer" parent="Node"]
+margin_top = 21.0
+margin_right = 268.0
+margin_bottom = 79.0
+custom_constants/margin_right = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="Panel" type="Panel" parent="Node/Control"]
+margin_left = 5.0
+margin_right = 263.0
+margin_bottom = 53.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 2 )
+
+[node name="Elements" type="VBoxContainer" parent="Node/Control"]
+margin_left = 5.0
+margin_right = 263.0
+margin_bottom = 53.0
+
+[node name="Label" type="Label" parent="Node/Control/Elements"]
+margin_right = 258.0
+margin_bottom = 15.0
+text = "ppppppppppppppppppppppppppppppppppppppppppp"
+
+[node name="Label2" type="Label" parent="Node/Control/Elements"]
+margin_top = 19.0
+margin_right = 258.0
+margin_bottom = 34.0
+text = "ppppppppppppppppppppppppppppppppppppppppppp"
+
+[node name="Label3" type="Label" parent="Node/Control/Elements"]
+margin_top = 38.0
+margin_right = 258.0
+margin_bottom = 53.0
+text = "ppppppppppppppppppppppppppppppppppppppppppp"

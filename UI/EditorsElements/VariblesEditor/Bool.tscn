@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://UI/EditorsElements/VariblesEditor/EditBoolVarible.gd" type="Script" id=1]
+
+[node name="Bool" type="HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[node name="Switch" type="CheckBox" parent="."]
+margin_right = 54.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "False"
+
+[connection signal="toggled" from="Switch" to="." method="_on_Switch_toggled"]

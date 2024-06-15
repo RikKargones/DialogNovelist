@@ -1,0 +1,216 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "VBoxContainer",
+"class": "BlockInfoEditUi",
+"language": "GDScript",
+"path": "res://UI/EditorsElements/DialogEditor/BlockInfoEditUi.gd"
+}, {
+"base": "VBoxContainer",
+"class": "BlockInfoGraphUi",
+"language": "GDScript",
+"path": "res://UI/EditorsElements/DialogEditor/BlockInfoGraphUi.gd"
+}, {
+"base": "ConfirmationDialog",
+"class": "ConfirmPopup",
+"language": "GDScript",
+"path": "res://UI/Popups/ConfurmPopup.gd"
+}, {
+"base": "NodeInfoMsg",
+"class": "ConnectionMsg",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeInfoMsg/ConnectionMsg.gd"
+}, {
+"base": "Resource",
+"class": "DialogEditorUiPathBase",
+"language": "GDScript",
+"path": "res://UI/EditorsElements/DialogEditor/DialogEditorUiPathBase.gd"
+}, {
+"base": "VBoxContainer",
+"class": "DialogNodeSettingsHandler",
+"language": "GDScript",
+"path": "res://UI/EditorsElements/DialogEditor/DialogNodeSettingsHandler.gd"
+}, {
+"base": "GraphNode",
+"class": "DialogNodeUi",
+"language": "GDScript",
+"path": "res://UI/EditorsElements/DialogEditor/DialogNodeUi.gd"
+}, {
+"base": "PanelContainer",
+"class": "EditOptionUi",
+"language": "GDScript",
+"path": "res://UI/EditorsElements/DialogEditor/Option.gd"
+}, {
+"base": "HBoxContainer",
+"class": "EditVaribleBase",
+"language": "GDScript",
+"path": "res://UI/EditorsElements/VariblesEditor/EditVaribleBase.gd"
+}, {
+"base": "",
+"class": "EditorDialogData",
+"language": "GDScript",
+"path": "res://Classes/Editors/Dialogs/EditorDialogData.gd"
+}, {
+"base": "",
+"class": "EditorMoodInfo",
+"language": "GDScript",
+"path": "res://Classes/Editors/Persons/EditorMoodInfo.gd"
+}, {
+"base": "",
+"class": "EditorNodeInfo",
+"language": "GDScript",
+"path": "res://Classes/Editors/Dialogs/EditorNodeInfo.gd"
+}, {
+"base": "",
+"class": "EditorPersonInfo",
+"language": "GDScript",
+"path": "res://Classes/Editors/Persons/EditorPersonInfo.gd"
+}, {
+"base": "AcceptDialog",
+"class": "ErrorPopup",
+"language": "GDScript",
+"path": "res://UI/Popups/ErrorPopup.gd"
+}, {
+"base": "FileDialog",
+"class": "FilePopup",
+"language": "GDScript",
+"path": "res://UI/Popups/FilePopup.gd"
+}, {
+"base": "Button",
+"class": "HideButton",
+"language": "GDScript",
+"path": "res://UI/HideButton.gd"
+}, {
+"base": "NodeInfoMsg",
+"class": "MoodBlockFetchMsg",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeInfoMsg/MoodBlockMsg.gd"
+}, {
+"base": "MoodBlockFetchMsg",
+"class": "MoodBlockFetchRequest",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeInfoMsg/MoodBlockFetchRequest.gd"
+}, {
+"base": "MoodBlockFetchMsg",
+"class": "MoodBlockFetchRespond",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeInfoMsg/MoodBlockFetchRespond.gd"
+}, {
+"base": "MoodBlockFetchMsg",
+"class": "MoodUpdateMsg",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeInfoMsg/MoodUpdateMsg.gd"
+}, {
+"base": "",
+"class": "NBI_EditorBranch",
+"language": "GDScript",
+"path": "res://Classes/EditorNBIs/NBI_EditorBranch.gd"
+}, {
+"base": "ConfirmationDialog",
+"class": "NameDialog",
+"language": "GDScript",
+"path": "res://UI/Popups/NameSetter.gd"
+}, {
+"base": "NodeInfoPath",
+"class": "NodeBlockPath",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeBlockPath.gd"
+}, {
+"base": "Resource",
+"class": "NodeInfoMsg",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeInfoMsg/NodeInfoMsg.gd"
+}, {
+"base": "Resource",
+"class": "NodeInfoPath",
+"language": "GDScript",
+"path": "res://Classes/DialogEditorDatas/NodeInfoPath.gd"
+}, {
+"base": "Resource",
+"class": "NodeTemplate",
+"language": "GDScript",
+"path": "res://Classes/Editors/Dialogs/NodeTemplate.gd"
+}, {
+"base": "Label",
+"class": "SidedLabel",
+"language": "GDScript",
+"path": "res://UI/FlippedLabel.gd"
+} ]
+_global_script_class_icons={
+"BlockInfoEditUi": "",
+"BlockInfoGraphUi": "",
+"ConfirmPopup": "",
+"ConnectionMsg": "",
+"DialogEditorUiPathBase": "",
+"DialogNodeSettingsHandler": "",
+"DialogNodeUi": "",
+"EditOptionUi": "",
+"EditVaribleBase": "",
+"EditorDialogData": "",
+"EditorMoodInfo": "",
+"EditorNodeInfo": "",
+"EditorPersonInfo": "",
+"ErrorPopup": "",
+"FilePopup": "",
+"HideButton": "",
+"MoodBlockFetchMsg": "",
+"MoodBlockFetchRequest": "",
+"MoodBlockFetchRespond": "",
+"MoodUpdateMsg": "",
+"NBI_EditorBranch": "",
+"NameDialog": "",
+"NodeBlockPath": "",
+"NodeInfoMsg": "",
+"NodeInfoPath": "",
+"NodeTemplate": "",
+"SidedLabel": ""
+}
+
+[application]
+
+config/name="DialogNovelist"
+run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+DialogDispetcher="*res://ExportGDS/DialogDispetcher.gd"
+Ui="*res://Globals/UI.gd"
+Constants="*res://Globals/Constants.gd"
+FilesData="*res://Globals/FilesData.gd"
+EditLibraly="*res://Globals/EditLibrary.gd"
+VariblesData="*res://Globals/VariblesData.gd"
+LocalesData="*res://Globals/LocalesData.gd"
+FontsData="*res://Globals/FontsData.gd"
+PersonsData="*res://Globals/PersonsData.gd"
+DialogsData="*res://Globals/DialogsData.gd"
+Project="*res://Globals/Project.gd"
+
+[debug]
+
+gdscript/completion/autocomplete_setters_and_getters=true
+gdscript/warnings/unsafe_call_argument=true
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+theme/custom_font="res://UI/Fonts/MainEditorFont.tres"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"

@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/EditorsElements/DialogEditor/DialogBlockUiWrapper.gd" type="Script" id=1]
+[ext_resource path="res://UI/Icons/SinhronizeIcon.png" type="Texture" id=2]
+
+[node name="DialogBlockUiWrapper" type="PanelContainer"]
+margin_right = 14.0
+margin_bottom = 14.0
+script = ExtResource( 1 )
+
+[node name="All" type="HBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 47.0
+margin_bottom = 54.0
+
+[node name="Contents" type="MarginContainer" parent="All"]
+margin_bottom = 47.0
+size_flags_horizontal = 3
+
+[node name="Blocker" type="Panel" parent="All/Contents"]
+self_modulate = Color( 1, 1, 1, 0.588235 )
+margin_bottom = 47.0
+
+[node name="VSeparator" type="VSeparator" parent="All"]
+margin_left = 4.0
+margin_right = 8.0
+margin_bottom = 47.0
+
+[node name="CommonSettings" type="VBoxContainer" parent="All"]
+margin_left = 12.0
+margin_right = 40.0
+margin_bottom = 47.0
+
+[node name="DelBt" type="Button" parent="All/CommonSettings"]
+margin_right = 28.0
+margin_bottom = 21.0
+text = "X"
+
+[node name="ConnectBt" type="Button" parent="All/CommonSettings"]
+margin_top = 25.0
+margin_right = 28.0
+margin_bottom = 47.0
+size_flags_vertical = 10
+toggle_mode = true
+icon = ExtResource( 2 )
+
+[node name="ConnectSet" type="CheckBox" parent="All/CommonSettings"]
+visible = false
+margin_top = 51.0
+margin_right = 28.0
+margin_bottom = 75.0
+size_flags_vertical = 10
+
+[connection signal="pressed" from="All/CommonSettings/DelBt" to="." method="_on_DelBt_pressed"]
+[connection signal="toggled" from="All/CommonSettings/ConnectBt" to="." method="_on_ConnectBt_toggled"]

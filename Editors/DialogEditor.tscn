@@ -1,0 +1,155 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://UI/PickableList.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/HideButton.gd" type="Script" id=2]
+[ext_resource path="res://Editors/DialogEditor.gd" type="Script" id=3]
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/EditorsElements/DialogEditor/DialogNodeSettingsHandler.gd" type="Script" id=5]
+
+[node name="DialogEditor" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="DialogList" parent="." instance=ExtResource( 1 )]
+margin_right = 150.0
+margin_bottom = 600.0
+button_suffix = "dialog"
+
+[node name="HideButton" type="Button" parent="."]
+margin_left = 154.0
+margin_right = 172.0
+margin_bottom = 600.0
+text = ">"
+script = ExtResource( 2 )
+hide_node = NodePath("../DialogList")
+on_hide_text = ">"
+on_show_text = "<"
+
+[node name="Split" type="HSplitContainer" parent="."]
+margin_left = 176.0
+margin_right = 1020.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Map" type="GraphEdit" parent="Split"]
+margin_right = 594.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 300, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+right_disconnects = true
+scroll_offset = Vector2( -276, -204 )
+
+[node name="NodeEdit" type="HBoxContainer" parent="Split"]
+margin_left = 606.0
+margin_right = 844.0
+margin_bottom = 600.0
+
+[node name="HideButton" type="Button" parent="Split/NodeEdit"]
+margin_right = 20.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 20, 0 )
+size_flags_horizontal = 0
+script = ExtResource( 2 )
+hide_node = NodePath("../NodeInfoShower")
+on_hide_text = "Show node settings"
+on_show_text = "Hide node settings"
+enable_side_label = true
+
+[node name="NodeInfoShower" type="PanelContainer" parent="Split/NodeEdit"]
+margin_left = 24.0
+margin_right = 238.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+
+[node name="Settings" type="VBoxContainer" parent="Split/NodeEdit/NodeInfoShower"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 207.0
+margin_bottom = 593.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Node" type="HBoxContainer" parent="Split/NodeEdit/NodeInfoShower/Settings"]
+margin_right = 200.0
+margin_bottom = 24.0
+
+[node name="NodeName" type="Label" parent="Split/NodeEdit/NodeInfoShower/Settings/Node"]
+margin_top = 4.0
+margin_right = 114.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "NODE_NAME"
+align = 1
+clip_text = true
+
+[node name="VSeparator" type="VSeparator" parent="Split/NodeEdit/NodeInfoShower/Settings/Node"]
+margin_left = 118.0
+margin_right = 122.0
+margin_bottom = 24.0
+
+[node name="CheckBox" type="CheckBox" parent="Split/NodeEdit/NodeInfoShower/Settings/Node"]
+margin_left = 126.0
+margin_right = 200.0
+margin_bottom = 24.0
+text = "IS START"
+
+[node name="HSeparator" type="HSeparator" parent="Split/NodeEdit/NodeInfoShower/Settings"]
+margin_top = 28.0
+margin_right = 200.0
+margin_bottom = 32.0
+
+[node name="Scroll" type="ScrollContainer" parent="Split/NodeEdit/NodeInfoShower/Settings"]
+margin_top = 36.0
+margin_right = 200.0
+margin_bottom = 553.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="DialogNodeSettingsHandler" type="VBoxContainer" parent="Split/NodeEdit/NodeInfoShower/Settings/Scroll"]
+margin_right = 200.0
+margin_bottom = 517.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 5 )
+
+[node name="HSeparator2" type="HSeparator" parent="Split/NodeEdit/NodeInfoShower/Settings"]
+margin_top = 557.0
+margin_right = 200.0
+margin_bottom = 561.0
+
+[node name="AddSettingBt" parent="Split/NodeEdit/NodeInfoShower/Settings" instance=ExtResource( 4 )]
+margin_top = 565.0
+margin_right = 200.0
+margin_bottom = 586.0
+text = "Add Setting..."
+rename_button_on_select = false
+
+[node name="Control" type="Control" parent="."]
+margin_left = 1024.0
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="AddMenu" type="PopupMenu" parent="Control"]
+margin_right = 20.0
+margin_bottom = 20.0
+
+[node name="TemplatesMenu" type="PopupMenu" parent="Control/AddMenu"]
+margin_right = 20.0
+margin_bottom = 20.0
+
+[connection signal="add_item_request" from="DialogList" to="." method="_on_DialogList_add_item_request"]
+[connection signal="connection_from_empty" from="Split/Map" to="." method="_on_Map_connection_from_empty"]
+[connection signal="connection_request" from="Split/Map" to="." method="_on_Map_connection_request"]
+[connection signal="connection_to_empty" from="Split/Map" to="." method="_on_Map_connection_to_empty"]
+[connection signal="disconnection_request" from="Split/Map" to="." method="_on_Map_disconnection_request"]
+[connection signal="node_selected" from="Split/Map" to="." method="_on_Map_node_selected"]
+[connection signal="node_unselected" from="Split/Map" to="." method="_on_Map_node_unselected"]
+[connection signal="popup_request" from="Split/Map" to="." method="_on_Map_popup_request"]
+[connection signal="hide_hidable_node" from="Split/NodeEdit/HideButton" to="." method="_on_HideButton_hide_hidable_node"]
+[connection signal="item_selected" from="Split/NodeEdit/NodeInfoShower/Settings/AddSettingBt" to="." method="_on_AddSettingBt_item_selected"]
+[connection signal="index_pressed" from="Control/AddMenu" to="." method="_on_AddMenu_index_pressed"]

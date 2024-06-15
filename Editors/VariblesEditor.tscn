@@ -1,0 +1,94 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/SearchLine.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Editors/VariblesEditor.gd" type="Script" id=3]
+
+[node name="VariblesEditor" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="Settings" type="HBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 25.0
+
+[node name="SearchLine" parent="Settings" instance=ExtResource( 2 )]
+margin_right = 839.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Settings"]
+margin_left = 843.0
+margin_top = 5.0
+margin_right = 870.0
+margin_bottom = 20.0
+text = "Type:"
+
+[node name="TypeMenu" parent="Settings" instance=ExtResource( 1 )]
+margin_left = 874.0
+margin_right = 1024.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 150, 0 )
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 29.0
+margin_right = 1024.0
+margin_bottom = 33.0
+
+[node name="AddBts" type="HBoxContainer" parent="."]
+margin_top = 37.0
+margin_right = 1024.0
+margin_bottom = 58.0
+
+[node name="AddBoolBt" type="Button" parent="AddBts"]
+margin_right = 253.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "Add Bool"
+
+[node name="AddNumBt" type="Button" parent="AddBts"]
+margin_left = 257.0
+margin_right = 510.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "Add Number"
+
+[node name="AddStringBt" type="Button" parent="AddBts"]
+margin_left = 514.0
+margin_right = 767.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "Add String"
+
+[node name="AddSignalBt" type="Button" parent="AddBts"]
+margin_left = 771.0
+margin_right = 1024.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "Add Signal"
+
+[node name="HSeparator2" type="HSeparator" parent="."]
+margin_top = 62.0
+margin_right = 1024.0
+margin_bottom = 66.0
+
+[node name="Scroll" type="ScrollContainer" parent="."]
+margin_top = 70.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="VariblesList" type="VBoxContainer" parent="Scroll"]
+margin_right = 1024.0
+margin_bottom = 530.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="search_entered" from="Settings/SearchLine" to="." method="_on_SearchLine_search_entered"]
+[connection signal="item_index_selected" from="Settings/TypeMenu" to="." method="_on_TypeMenu_item_index_selected"]
+[connection signal="pressed" from="AddBts/AddBoolBt" to="." method="_on_AddBoolBt_pressed"]
+[connection signal="pressed" from="AddBts/AddNumBt" to="." method="_on_AddNumBt_pressed"]
+[connection signal="pressed" from="AddBts/AddStringBt" to="." method="_on_AddStringBt_pressed"]
+[connection signal="pressed" from="AddBts/AddSignalBt" to="." method="_on_AddSignalBt_pressed"]

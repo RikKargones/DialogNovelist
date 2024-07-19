@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/DialogEditorUiPathBase.gd" type="Script" id=1]
+[ext_resource path="res://EditorsElements/DialogEditor/EditUiBlocks/DialogEndEditBlock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://EditorsElements/DialogEditor/GraphUiBlocks/DialogEndBlock.tscn" type="PackedScene" id=3]
+
+[resource]
+script = ExtResource( 1 )
+base_key = "DialogEnd"
+edit_ui_scene = ExtResource( 2 )
+graph_node_ui_scene = ExtResource( 3 )
+order_flag = 2
+conflict_blocks = PoolStringArray( "Branch Block", "Choose Block", "Dialog End" )

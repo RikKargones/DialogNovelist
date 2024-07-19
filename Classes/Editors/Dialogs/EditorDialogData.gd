@@ -1,17 +1,34 @@
-extends DialogDispetcher.DialogData
+extends DialogInfo
 
-class_name EditorDialogData
+class_name EditorDialogInfo
 
-func add_node(node_name : String) -> void:
+func add_node(node_name : String) -> NodeInfo:
 	node_list.add_key(node_name, EditorNodeInfo.new())
+	return get_node(node_name)
 
 
-func switch_node_info(node_name : String, node_data : DialogDispetcher.NodeInfo) -> void:
+func switch_node_info(node_name : String, node_data : NodeInfo) -> void:
 	node_data.set_key(node_name, node_data)
 
 
 func erase_node(node_name : String) -> void:		
 	node_list.erase(node_name)
+	start_nodes.erase(node_name)
+
+
+func add_start_node(node_name : String, point_name : String) -> void:
+	if !has_node(node_name) || is_start_node(node_name): return
+	
+	start_nodes.add_key(node_name, point_name)
+	
+	
+func set_start_node_point_name(node_name : String, new_point_name : String) -> void:
+	if !has_node(node_name) || !is_start_node(node_name): return
+	
+	start_nodes.set_key(node_name, new_point_name)
+	
+
+func erase_start_node(node_name : String) -> void:
 	start_nodes.erase(node_name)
 
 

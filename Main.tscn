@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Editors/FontEditor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Editors/LanguageEditor.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Editors/PersonEditor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Editors/VariblesEditor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Editors/DialogEditor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Editors/Preview.tscn" type="PackedScene" id=6]
 
 [node name="Main" type="VBoxContainer"]
 anchor_right = 1.0
@@ -55,6 +56,13 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="LanguageEditor" parent="Scroll/Editors" instance=ExtResource( 2 )]
+visible = false
+margin_left = 4.0
+margin_top = 33.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Preview" parent="Scroll/Editors" instance=ExtResource( 6 )]
 visible = false
 margin_left = 4.0
 margin_top = 33.0

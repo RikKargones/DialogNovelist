@@ -1,0 +1,176 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://UI/HideButton.gd" type="Script" id=1]
+[ext_resource path="res://UI/Fonts/MainEditorFontBold.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/SearchLine.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/PreviewView.tscn" type="PackedScene" id=5]
+
+[node name="Preview" type="HBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_right = 214.0
+margin_bottom = 600.0
+
+[node name="VariblesPreSet" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 207.0
+margin_bottom = 593.0
+
+[node name="Label" type="Label" parent="PanelContainer/VariblesPreSet"]
+margin_right = 200.0
+margin_bottom = 15.0
+custom_fonts/font = ExtResource( 2 )
+text = "Dialog varibles test sets"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VariblesPreSet"]
+margin_top = 19.0
+margin_right = 200.0
+margin_bottom = 23.0
+
+[node name="SearchLine" parent="PanelContainer/VariblesPreSet" instance=ExtResource( 4 )]
+margin_top = 27.0
+margin_right = 200.0
+margin_bottom = 52.0
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/VariblesPreSet"]
+margin_top = 56.0
+margin_right = 200.0
+margin_bottom = 60.0
+
+[node name="List" type="ScrollContainer" parent="PanelContainer/VariblesPreSet"]
+margin_top = 64.0
+margin_right = 200.0
+margin_bottom = 586.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="VariblesPreSetShow" type="VBoxContainer" parent="PanelContainer/VariblesPreSet/List"]
+margin_right = 200.0
+margin_bottom = 82.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="BoolExample" type="HBoxContainer" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow"]
+margin_right = 200.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow/BoolExample"]
+margin_top = 4.0
+margin_right = 96.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Bool Name"
+
+[node name="CheckBox" type="CheckBox" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow/BoolExample"]
+margin_left = 100.0
+margin_right = 200.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 100, 0 )
+text = "False"
+
+[node name="StringExample" type="HBoxContainer" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow"]
+margin_top = 28.0
+margin_right = 200.0
+margin_bottom = 53.0
+
+[node name="Label" type="Label" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow/StringExample"]
+margin_top = 5.0
+margin_right = 96.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "String Name"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow/StringExample"]
+margin_left = 100.0
+margin_right = 200.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 100, 0 )
+text = "Some text"
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="NumberExample" type="HBoxContainer" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow"]
+margin_top = 57.0
+margin_right = 200.0
+margin_bottom = 82.0
+
+[node name="Label" type="Label" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow/NumberExample"]
+margin_top = 5.0
+margin_right = 96.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Number Name"
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/VariblesPreSet/List/VariblesPreSetShow/NumberExample"]
+margin_left = 100.0
+margin_right = 200.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="HideButton" type="Button" parent="."]
+margin_left = 218.0
+margin_right = 230.0
+margin_bottom = 600.0
+script = ExtResource( 1 )
+is_hide = true
+hide_node = NodePath("../PanelContainer")
+on_hide_text = "Show Varibles Pre-Sets"
+on_show_text = "Hide Varibles Pre-Sets"
+enable_side_label = true
+
+[node name="VSeparator" type="VSeparator" parent="."]
+margin_left = 234.0
+margin_right = 238.0
+margin_bottom = 600.0
+
+[node name="MainWindow" type="VBoxContainer" parent="."]
+margin_left = 242.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+
+[node name="Settings" type="HBoxContainer" parent="MainWindow"]
+margin_right = 782.0
+margin_bottom = 21.0
+
+[node name="Label" type="Label" parent="MainWindow/Settings"]
+margin_top = 3.0
+margin_right = 34.0
+margin_bottom = 18.0
+text = "Dialog:"
+
+[node name="DialogPick" parent="MainWindow/Settings" instance=ExtResource( 3 )]
+margin_left = 38.0
+margin_right = 379.0
+size_flags_horizontal = 3
+
+[node name="Label2" type="Label" parent="MainWindow/Settings"]
+margin_left = 383.0
+margin_top = 3.0
+margin_right = 436.0
+margin_bottom = 18.0
+text = "StartPoint:"
+
+[node name="StartPointPick" parent="MainWindow/Settings" instance=ExtResource( 3 )]
+margin_left = 440.0
+margin_right = 782.0
+size_flags_horizontal = 3
+
+[node name="HSeparator" type="HSeparator" parent="MainWindow"]
+margin_top = 25.0
+margin_right = 782.0
+margin_bottom = 29.0
+
+[node name="View" parent="MainWindow" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 33.0
+margin_right = 782.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3

@@ -2,7 +2,7 @@ extends VBoxContainer
 
 onready var list 	= $ScrollContainer/List
 
-var locale_setting_pck = preload("res://UI/EditorsElements/LangluageElement.tscn")
+var locale_setting_pck = preload("res://EditorsElements/LangluageElement.tscn")
 
 signal search_call(search_text)
 

@@ -1,8 +1,8 @@
 extends Node
 
-var font_dict : DialogDispetcher.UnicDict = DialogDispetcher.UnicDict.new()
+var font_dict : UnicDict = UnicDict.new()
 
-class EditorFontInfo extends DialogDispetcher.FontInfo:
+class EditorFontInfo extends FontInfo:
 	func _notification(what):
 		if what == NOTIFICATION_PREDELETE:
 			FilesData.remove_external_file(normal_fontdata_path.get_file())

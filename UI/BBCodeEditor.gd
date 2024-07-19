@@ -5,7 +5,7 @@ onready var bbcode_show 	= $Control/PanelContainer/ScrollContainer/RichTextLabel
 onready var popup_scroll	= $Control/PanelContainer/ScrollContainer
 onready var popup_panel		= $Control/PanelContainer
 
-var text 		: String setget set_text
+var text 		: String 	setget set_text
 var on_popup 	: bool
 var on_edit		: bool
 
@@ -42,6 +42,10 @@ func set_font(fontdata : FontsData.EditorFontInfo) -> void:
 
 func ajust_popup() -> void:
 	if is_queued_for_deletion(): return
+	
+	popup_panel.visible = (text.strip_edges() != "")
+	
+	if !popup_panel.visible: return
 	
 	yield(get_tree(), "idle_frame")
 	
@@ -81,6 +85,8 @@ func is_on_popup() -> bool:
 func _input(event : InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if !event.pressed:
+			if text.strip_edges() == "": return
+			
 			if popup_panel.visible:
 				if !is_on_popup() && !is_on_edit(): popup_panel.hide()
 				else: ajust_popup()

@@ -1,11 +1,11 @@
-extends DialogDispetcher.NodeInfo
+extends NodeInfo
 
 class_name EditorNodeInfo
 
 export var fresh_blocks			: Array
-export var block_pcks 			: Resource = DialogDispetcher.UnicDict.new()
+export var block_pcks 			: Resource = UnicDict.new()
 export var offset 				: Vector2
-export var sinhronize_connects	: Resource = DialogDispetcher.UnicDict.new()
+export var sinhronize_connects	: Resource = UnicDict.new()
 
 signal block_aded
 signal block_sinhronized
@@ -17,7 +17,7 @@ signal msg_recived_from_next(msg)
 signal msg_recived_from_back(msg)
 
 
-func _init(node_info = DialogDispetcher.NodeInfo.new()) -> void:
+func _init(node_info = NodeInfo.new()) -> void:
 	if !is_instance_valid(node_info): return
 	
 	for key in node_info.blocks.keys():
@@ -135,6 +135,7 @@ func init_block(block_key : String) -> void:
 	
 	var graph_ui = paths.graph_node_ui_scene.instance()
 	var new_script = graph_ui._get_blockinfo_script().new()
+	
 	new_script.resource_local_to_scene = true
 	blocks.set_key(block_key, new_script)
 	fresh_blocks.append(block_key)
@@ -144,8 +145,8 @@ func is_block_fresh(block_key : String) -> bool:
 	return block_key in fresh_blocks
 	
 
-func add_block(pck_path : DialogEditorUiPathBase, set_data : DialogDispetcher.NodeBlockInfo = null) -> void:
-	if !EditLibraly.is_dialog_editor_ui_path_valid(pck_path): return
+func add_block(pck_path : DialogEditorUiPathBase, set_data : NodeBlockInfo = null) -> String:
+	if !EditLibraly.is_dialog_editor_ui_path_valid(pck_path): return ""
 	
 	var final_key : String = FilesData.make_string_nambered(pck_path.base_key, get_blocks_list())
 	
@@ -154,11 +155,33 @@ func add_block(pck_path : DialogEditorUiPathBase, set_data : DialogDispetcher.No
 	
 	if !is_instance_valid(set_data):
 		init_block(final_key)
+		
+	sort_blocks()
 	
 	emit_signal("block_aded", final_key)
+	
+	return final_key
 
 
-func save_block(block_key : String, from_data : DialogDispetcher.NodeBlockInfo) -> void:
+func sort_blocks() -> void:
+	var first_offset = 0
+	
+	for block in block_pcks.keys():
+		var block_pck : DialogEditorUiPathBase = block_pcks.get_value(block)
+		
+		if !is_instance_valid(block_pck): continue
+		
+		match block_pck.order_flag:
+			DialogEditorUiPathBase.OrderFlag.ALWAYS_FIRST:
+				block_pcks.move_key_position(block, first_offset)
+				blocks.move_key_position(block, first_offset)
+				first_offset += 1
+			DialogEditorUiPathBase.OrderFlag.ALWAYS_LAST:
+				block_pcks.move_key_position(block, block_pcks.keys().size())
+				blocks.move_key_position(block, blocks.keys().size())
+
+
+func save_block(block_key : String, from_data : NodeBlockInfo) -> void:
 	var block = get_block(block_key)
 	
 	if !is_instance_valid(block) || !is_instance_valid(from_data) || block.get_script() != from_data.get_script(): return
@@ -174,6 +197,7 @@ func erase_block(key : String) -> void:
 	blocks.erase(key)
 	block_pcks.erase(key)
 	sinhronize_connects.erase(key)
+	fresh_blocks.erase(key)
 	
 	for other_key in sinhronize_connects.keys():
 		sinhronize_connects.get_value(other_key).erase(key)

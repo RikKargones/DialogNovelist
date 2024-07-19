@@ -3,12 +3,26 @@ extends Node
 var try_show_popups = false
 var popups 			= []
 
-func add_popup(popup : Popup, popup_signal = "", inst = null, method_name = "", add_vars = []) -> void:
-	if is_instance_valid(inst) && inst.has_method(method_name) && popup.has_signal(popup_signal):
-		popup.connect(popup_signal, inst, method_name, add_vars)
-	elif popup_signal != "" && method_name != "":
-		popup_error("Popup can't connect to instance! (" + str(popup) + ")")
+class ConnectInfo:
+	var object 		: Object
+	var obj_func 	: String
+	var args 		: Array
 	
+	func _init(to_object : Object, obj_function : String, additional_args : Array = []) -> void:
+		object = to_object
+		obj_func = obj_function
+		args = additional_args
+	
+	func is_valid() -> bool:
+		return is_instance_valid(object) && object.has_method(obj_func)
+	
+	func connect_to_object(other_object : Object, obj_signal : String) -> void:
+		if !is_valid() || !is_instance_valid(other_object) || !other_object.has_signal(obj_signal): return
+		
+		other_object.connect(obj_signal, object, obj_func, args)
+
+
+func add_popup(popup : Popup) -> void:
 	popups.append(popup)
 	
 	if !is_inside_tree(): 
@@ -35,9 +49,54 @@ func _process(delta):
 				add_popup_to_tree(popup)
 
 
+func is_valid_connect_target(connect_info : ConnectInfo) -> bool:
+	if !is_instance_valid(connect_info):
+		popup_error("Connect info not seted!", "UI")
+		return false
+	
+	if !connect_info.is_valid():
+		popup_error("Can't add confirm popup because object or func to callback is not existing.", "UI")
+		return false
+		
+	return true
+
 func popup_error(text : String, trower_name : String = ""):
 	if trower_name == "": add_popup(ErrorPopup.new(text))
 	else: add_popup(ErrorPopup.new(trower_name + ": " + text))
+
+
+func popup_confirm(connect_info : ConnectInfo, popup_text : String = "") -> void:
+	if !is_valid_connect_target(connect_info): return
+		
+	var new_popup = ConfirmPopup.new(popup_text)
+	connect_info.connect_to_object(new_popup, "confirmed")
+	add_popup(new_popup)
+
+
+func popup_fileshow(connect_info : ConnectInfo, title = "Get a file...", file_filters = PoolStringArray([]), pick_mode = FileDialog.MODE_OPEN_FILE) -> void:
+	if !is_valid_connect_target(connect_info): return
+	
+	var new_popup = FilePopup.new(title, file_filters, pick_mode)
+	
+	match pick_mode:
+		FileDialog.MODE_OPEN_FILE, FileDialog.MODE_SAVE_FILE, FileDialog.MODE_OPEN_ANY:
+			connect_info.connect_to_object(new_popup, "file_selected")
+		FileDialog.MODE_OPEN_DIR, FileDialog.MODE_OPEN_ANY:
+			connect_info.connect_to_object(new_popup, "dir_selected")
+		FileDialog.MODE_OPEN_FILES:
+			connect_info.connect_to_object(new_popup, "files_selected")
+			
+	add_popup(new_popup)
+	
+
+func popup_namer(connect_info : ConnectInfo, title : String = "Name someting...", filters_arr : PoolStringArray = PoolStringArray([]), before_text : String = "", validate : bool = false) -> void:
+	if !is_valid_connect_target(connect_info): return
+	
+	var new_popup = NameDialog.new(title, filters_arr, before_text, validate)
+	
+	connect_info.connect_to_object(new_popup, "name_confurmed")
+	
+	add_popup(new_popup)
 
 	
 func remove_popup(popup : Popup) -> void:

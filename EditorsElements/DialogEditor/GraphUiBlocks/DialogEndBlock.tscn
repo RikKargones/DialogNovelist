@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/GraphUiBlocks/DialogEndBlock.gd" type="Script" id=1]
+
+[node name="DialogEndBlock" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[node name="Dialog" type="GridContainer" parent="."]
+margin_right = 89.0
+margin_bottom = 34.0
+columns = 2
+
+[node name="Label" type="Label" parent="Dialog"]
+margin_right = 85.0
+margin_bottom = 15.0
+text = "Change to dialog:"
+
+[node name="DialogName" type="Label" parent="Dialog"]
+margin_left = 89.0
+margin_right = 89.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+align = 2
+
+[node name="Label2" type="Label" parent="Dialog"]
+margin_top = 19.0
+margin_right = 85.0
+margin_bottom = 34.0
+text = "Start point:"
+
+[node name="PointName" type="Label" parent="Dialog"]
+margin_left = 89.0
+margin_top = 19.0
+margin_right = 89.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+align = 2

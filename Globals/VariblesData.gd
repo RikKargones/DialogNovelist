@@ -1,9 +1,9 @@
 extends Node
 
-var number_dict		: DialogDispetcher.UnicDict = DialogDispetcher.UnicDict.new()
-var string_dict		: DialogDispetcher.UnicDict = DialogDispetcher.UnicDict.new()
-var bool_dict		: DialogDispetcher.UnicDict = DialogDispetcher.UnicDict.new()
-var signal_dict		: DialogDispetcher.UnicDict = DialogDispetcher.UnicDict.new()
+var number_dict		: UnicDict = UnicDict.new()
+var string_dict		: UnicDict = UnicDict.new()
+var bool_dict		: UnicDict = UnicDict.new()
+var signal_dict		: UnicDict = UnicDict.new()
 
 signal varible_aded(var_name)
 signal varible_renamed(old_var_name, new_var_name)

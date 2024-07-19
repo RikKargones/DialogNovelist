@@ -2,7 +2,7 @@ extends FileDialog
 
 class_name FilePopup
 
-func _init(title = "Get a file...", file_filters = PoolStringArray([]), pick_mode = FileDialog.MODE_OPEN_FILE):
+func _init(title : String, file_filters : PoolStringArray, pick_mode : int):
 	mode_overrides_title = false
 	window_title = title
 	filters = file_filters

@@ -1,7 +1,7 @@
 extends Node
 
 var cur_project_folder		= "user://CurProject"
-var external_files 			= {}
+var external_files  		: Dictionary
 
 class ExternalRes:
 	export var file_path_in_project : String
@@ -54,7 +54,7 @@ func make_string_nambered(st : String, keys : PoolStringArray) -> String:
 	var counter			= 1
 	
 	while final_name in keys:
-		final_name = st + " " + str(counter)
+		final_name = st + "_" + str(counter)
 		counter += 1
 	
 	return final_name

@@ -11,7 +11,7 @@ var validate_names	= false
 signal name_confurmed(new_name)
 
 
-func _init(title = "Name", filters_arr = PoolStringArray([]), before_text = "", validate = false):
+func _init(title : String, filters_arr : PoolStringArray, before_text : String, validate : bool):
 	add_child(hb_con)
 	
 	if before_text.strip_edges() != "":

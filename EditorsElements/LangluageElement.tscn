@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=1]
+[ext_resource path="res://EditorsElements/LangluageElement.gd" type="Script" id=2]
+
+[node name="LangluageElement" type="PanelContainer"]
+margin_bottom = 40.0
+size_flags_horizontal = 3
+script = ExtResource( 2 )
+
+[node name="Panel" type="HBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 189.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+
+[node name="Enable" type="CheckBox" parent="Panel"]
+margin_right = 24.0
+margin_bottom = 26.0
+size_flags_horizontal = 0
+
+[node name="LangName" type="Label" parent="Panel"]
+margin_left = 28.0
+margin_top = 5.0
+margin_right = 28.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="FontSelect" parent="Panel" instance=ExtResource( 1 )]
+margin_left = 32.0
+margin_right = 182.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
+clip_text = true
+
+[connection signal="item_selected" from="Panel/FontSelect" to="." method="_on_FontSelect_item_selected"]

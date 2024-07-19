@@ -14,12 +14,12 @@ func is_node_exist() -> bool:
 	return is_instance_valid(get_node_info())
 
 	
-func get_dialog_info() -> EditorDialogData:
+func get_dialog_info() -> EditorDialogInfo:
 	return DialogsData.get_dialog(dialog)
 
 
 func get_node_info() -> EditorNodeInfo:
-	var dialog_data : EditorDialogData = DialogsData.get_dialog(dialog)
+	var dialog_data : EditorDialogInfo = DialogsData.get_dialog(dialog)
 	
 	if is_instance_valid(dialog_data):
 		var node_info = dialog_data.get_node(node)

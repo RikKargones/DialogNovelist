@@ -10,7 +10,7 @@ func _init(dialog_name = "", node_name = "", block_key = "") -> void:
 	block = block_key
 
 
-func get_block_info() -> DialogDispetcher.NodeBlockInfo:
+func get_block_info() -> NodeBlockInfo:
 	var node_info : EditorNodeInfo = get_node_info()
 	if is_instance_valid(node_info): return node_info.get_block(block)
 	return null

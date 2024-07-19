@@ -32,6 +32,8 @@ onready var cur_font_label		= $SettingsBackground/Settings/CurFontName
 
 var updating_font_compare 		= false
 
+const font_formats : Array		= ["*.otf ; Open Type Font", "*.ttf ; True Type Font"]
+
 signal font_list_updated
 
 func _ready():	
@@ -58,23 +60,22 @@ func open_font(font_id = FontsData.EditorFontInfo.TYPE.NORMAL):
 	
 	if !is_instance_valid(font_info): return
 	
-	var popup = FilePopup.new("", ["*.otf ; Open Type Font", "*.ttf ; True Type Font"])
 	var title = "Pick {type} variant for " + selected_item + " font..."
 	
 	match font_id:
 		FontsData.EditorFontInfo.TYPE.NORMAL:
-			popup.window_title = title.format(["NORMAL"],"{type}")
+			title = title.format(["NORMAL"],"{type}")
 		FontsData.EditorFontInfo.TYPE.BOLD:
-			popup.window_title = title.format(["BOLD"],"{type}")
+			title = title.format(["BOLD"],"{type}")
 		FontsData.EditorFontInfo.TYPE.ITALIC:
-			popup.window_title = title.format(["ITALIC"],"{type}")
+			title = title.format(["ITALIC"],"{type}")
 		FontsData.EditorFontInfo.TYPE.ITALIC_BOLD:
-			popup.window_title = title.format(["ITALIC-BOLD"],"{type}")
+			title = title.format(["ITALIC-BOLD"],"{type}")
 		_:
-			popup.queue_free()
 			return
-
-	Ui.add_popup(popup, "file_selected", font_info, "set_font_type", [font_id])
+	
+	var connect_info = Ui.ConnectInfo.new(font_info, "set_font_type", [font_id])
+	Ui.popup_fileshow(connect_info, title, font_formats)
 
 
 func load_metrics():
@@ -248,22 +249,22 @@ func on_add_font_name(font_path : String) -> void:
 
 
 func _on_FontList_add_item_request():
-	var popup = FilePopup.new("Pick a font file", ["*.otf ; Open Type Font", "*.ttf ; True Type Font"])
-	Ui.add_popup(popup, "file_selected", self, "on_add_font_name")
+	var connect_info = Ui.ConnectInfo.new(self, "on_add_font_name")
+	Ui.popup_fileshow(connect_info, "Pick a font file", font_formats)
 
 
 func _on_FontList_delete_item_request(item_name : String):
 	if item_name == Constants.defalut_key_name: return
 	
-	var popup = ConfirmPopup.new("Do you want delete this font (" + item_name + ")?")
-	Ui.add_popup(popup, "confirmed", FontsData, "erase_fontinfo", [item_name])
+	var connect_info = Ui.ConnectInfo.new(FontsData, "erase_fontinfo", [item_name])
+	Ui.popup_confirm(connect_info, "Do you want delete this font (" + item_name + ")?")
 
 
 func _on_FontList_rename_item_request(item_name : String):
 	if item_name == Constants.defalut_key_name: return
 	
-	var popup = NameDialog.new("Rename " + item_name + " to...", Project.Fonts.keys(), "", true)
-	Ui.add_popup(popup, "name_confurmed", FontsData, "rename_fontinfo", [item_name])
+	var connect_info = Ui.ConnectInfo.new(FontsData, "rename_fontinfo", [item_name])
+	Ui.popup_namer(connect_info, "Rename " + item_name + " to...", Project.Fonts.keys(), "", true)
 
 
 func _on_FontList_item_selected(item_name : String):

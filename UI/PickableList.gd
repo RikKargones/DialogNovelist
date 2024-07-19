@@ -32,7 +32,7 @@ func set_unchangable_items(blocked_list : PoolStringArray) -> void:
 		set_block_on_edit_buttons(get_selected_item() in blocked_items)
 
 
-func connect_to_unicdict(unic_dict : DialogDispetcher.UnicDict) -> void:
+func connect_to_unicdict(unic_dict : UnicDict) -> void:
 	EditLibraly.disconect_incoming_signals(["key_aded", "key_deleted", "key_renamed", "cleared"], self)
 	
 	unic_dict.connect("key_aded", self, "on_dict_add", [unic_dict])
@@ -43,11 +43,11 @@ func connect_to_unicdict(unic_dict : DialogDispetcher.UnicDict) -> void:
 	update_list(unic_dict.keys())
 
 
-func on_dict_add(key : String, unic_dict : DialogDispetcher.UnicDict) -> void:
+func on_dict_add(key : String, unic_dict : UnicDict) -> void:
 	update_list(unic_dict.keys(), key)
 
 
-func on_dict_delete(key : String, unic_dict : DialogDispetcher.UnicDict) -> void:	
+func on_dict_delete(key : String, unic_dict : UnicDict) -> void:	
 	if unic_dict.keys().size() != 0 && key == get_selected_item():
 		if list.is_anything_selected():
 			var index = list.get_selected_items()[0]
@@ -58,7 +58,7 @@ func on_dict_delete(key : String, unic_dict : DialogDispetcher.UnicDict) -> void
 	update_list(unic_dict.keys())
 
 
-func on_dict_rename(old_key : String, new_key : String, unic_dict : DialogDispetcher.UnicDict) -> void:
+func on_dict_rename(old_key : String, new_key : String, unic_dict : UnicDict) -> void:
 	if old_key == get_selected_item():
 		update_list(unic_dict.keys(), new_key)
 		return
@@ -66,7 +66,7 @@ func on_dict_rename(old_key : String, new_key : String, unic_dict : DialogDispet
 	update_list(unic_dict.keys())
 
 
-func on_dict_clear(unic_dict : DialogDispetcher.UnicDict) -> void:
+func on_dict_clear(unic_dict : UnicDict) -> void:
 	update_list(unic_dict.keys())
 
 

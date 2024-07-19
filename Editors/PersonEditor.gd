@@ -20,7 +20,7 @@ onready var group_selector		= $EditZone/Settings/MoodPanel/Moods/Buttons/GroupLi
 onready var add_group_bt		= $EditZone/Settings/MoodPanel/Moods/Buttons/AddBt
 onready var del_group_bt		= $EditZone/Settings/MoodPanel/Moods/Buttons/DeleteBt
 
-var pck_mood					= preload("res://UI/EditorsElements/Mood.tscn")
+var pck_mood					= preload("res://EditorsElements/Mood.tscn")
 
 var cur_person_edit 			= ""
 var cur_locale_edit				= ""
@@ -145,8 +145,8 @@ func load_mood_list() -> void:
 
 	
 func on_mood_name_confirm(mood_name : String) -> void:
-	var popup = FilePopup.new("Chose image for mood texture", file_filters)
-	Ui.add_popup(popup, "file_selected", self, "call_mood_add", [mood_name])
+	var connection = Ui.ConnectInfo.new(self, "call_mood_add", [mood_name])
+	Ui.popup_fileshow(connection, "Chose image for mood texture", file_filters)
 
 
 func call_mood_add(path : String, mood_name : String, call_load = true) -> void:
@@ -180,23 +180,25 @@ func call_person_add(new_person : String) -> void:
 
 func _on_AddMoodBt_pressed() -> void:
 	var person_info : EditorPersonInfo = get_cur_personinfo()
+	
 	if !is_instance_valid(person_info): return
 	
-	var popup = NameDialog.new("Name mood for person", person_info.get_mood_list())
-	Ui.add_popup(popup, "name_confurmed", self, "on_mood_name_confirm")
+	var connect_info = Ui.ConnectInfo.new(self, "on_mood_name_confirm")
+	Ui.popup_namer(connect_info, "Name mood for person", person_info.get_mood_list())
 
 
 func _on_AddMoodsMassBt_pressed():
 	var person_info : EditorPersonInfo = get_cur_personinfo()
+	
 	if !is_instance_valid(person_info): return
 	
-	var popup = FilePopup.new("Pick several files for mood textures", file_filters, FileDialog.MODE_OPEN_FILES)
-	Ui.add_popup(popup, "files_selected", self, "call_mass_mood_add")
+	var connect_info = Ui.ConnectInfo.new(self, "call_mass_mood_add")
+	Ui.popup_fileshow(connect_info, "Pick several files for mood textures", file_filters, FileDialog.MODE_OPEN_FILES)
 
 
 func _on_PersonList_add_item_request() -> void:
-	var popup = NameDialog.new("Make new person", PersonsData.get_persons_list(), "New person ID:", true)
-	Ui.add_popup(popup, "name_confurmed", self, "call_person_add")
+	var connect_info = Ui.ConnectInfo.new(self, "call_person_add")
+	Ui.popup_namer(connect_info, "Make new person", PersonsData.get_persons_list(), "New person ID:", true)
 
 
 func on_person_erase_confirm() -> void:
@@ -206,8 +208,8 @@ func on_person_erase_confirm() -> void:
 
 
 func _on_PersonList_delete_item_request(_item_name : String) -> void:
-	var popup = ConfirmPopup.new("Are you sure you want to delete this person?")
-	Ui.add_popup(popup, "confirmed", self, "on_person_erase_confirm")
+	var connect_info = Ui.ConnectInfo.new(self, "on_person_erase_confirm")
+	Ui.popup_confirm(connect_info, "Are you sure you want to delete this person?")
 
 
 func _on_PersonList_item_selected(item_name : String) -> void:
@@ -219,8 +221,8 @@ func on_person_rename_confirm(new_name : String) -> void:
 	
 
 func _on_PersonList_rename_item_request(item_name : String) -> void:
-	var popup = NameDialog.new("Rename person ID", PersonsData.get_persons_list(), "New person ID:", true)
-	Ui.add_popup(popup, "name_confurmed", self, "on_person_rename_confirm")
+	var connection_info = Ui.ConnectInfo.new(self, "on_person_rename_confirm")
+	Ui.popup_namer(connection_info, "Rename person ID", PersonsData.get_persons_list(), "New person ID:", true)
 
 
 func _on_LocaleName_text_changed(new_text : String) -> void:
@@ -255,8 +257,8 @@ func _on_LocaleMenu_item_selected(item_name : String) -> void:
 
 
 func _on_DeleteBt_pressed():
-	var confirm = ConfirmPopup.new("Are you sure you want to delete this mood group?")
-	Ui.add_popup(confirm, "confirmed", self, "erase_group")
+	var connect_info = Ui.ConnectInfo.new(self, "erase_group")
+	Ui.popup_confirm(connect_info, "Are you sure you want to delete this mood group?")
 
 
 func _on_AddBt_pressed():
@@ -264,8 +266,8 @@ func _on_AddBt_pressed():
 
 	if !is_instance_valid(person_info): return
 	
-	var name_popup = NameDialog.new("Name new mood group", person_info.get_groups_list(), "", true)
-	Ui.add_popup(name_popup, "name_confurmed", self, "add_group")
+	var connect_info = Ui.ConnectInfo.new(self, "add_group")
+	Ui.popup_namer(connect_info, "Name new mood group", person_info.get_groups_list(), "", true)
 	
 
 func _on_GroupList_item_selected(item_name : String) -> void:

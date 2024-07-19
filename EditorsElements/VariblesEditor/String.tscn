@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://EditorsElements/VariblesEditor/EditStringVarible.gd" type="Script" id=1]
+[ext_resource path="res://UI/BBCodeEditor.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/HideButton.gd" type="Script" id=3]
+
+[node name="String" type="HBoxContainer"]
+margin_right = 152.0
+margin_bottom = 300.0
+script = ExtResource( 1 )
+
+[node name="Edits" type="VBoxContainer" parent="."]
+margin_right = 136.0
+margin_bottom = 300.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StringEdit" type="LineEdit" parent="Edits"]
+margin_right = 136.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+
+[node name="ExpandEdit" parent="Edits" instance=ExtResource( 2 )]
+visible = false
+margin_top = 25.0
+margin_right = 152.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 0, 200 )
+
+[node name="HideButton" type="Button" parent="."]
+margin_left = 140.0
+margin_right = 152.0
+margin_bottom = 21.0
+size_flags_vertical = 0
+script = ExtResource( 3 )
+hide_node = NodePath("../Edits/StringEdit")
+replace_node = NodePath("../Edits/ExpandEdit")
+on_hide_text = "Collapse"
+on_show_text = "Expand"
+
+[connection signal="text_changed" from="Edits/StringEdit" to="." method="_on_StringEdit_text_changed"]

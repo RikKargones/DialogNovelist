@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/MoodShower.gd" type="Script" id=1]
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=2]
+
+[node name="MoodShower" type="VBoxContainer"]
+margin_top = 108.0
+margin_right = 148.0
+margin_bottom = 208.0
+script = ExtResource( 1 )
+
+[node name="Aspect" type="AspectRatioContainer" parent="."]
+margin_right = 148.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 120, 100 )
+
+[node name="Shower" type="PanelContainer" parent="Aspect"]
+margin_left = 24.0
+margin_right = 124.0
+margin_bottom = 100.0
+
+[node name="Picture" type="TextureRect" parent="Aspect/Shower"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 93.0
+margin_bottom = 93.0
+expand = true
+stretch_mode = 6
+
+[node name="VariantPicker" parent="." instance=ExtResource( 2 )]
+visible = false
+margin_top = 78.0
+margin_right = 141.0
+margin_bottom = 99.0
+rect_min_size = Vector2( 100, 0 )
+
+[connection signal="item_selected" from="VariantPicker" to="." method="_on_VariantPicker_item_selected"]

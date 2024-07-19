@@ -1,0 +1,119 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/EditUiBlocks/VaribleEditBlock.gd" type="Script" id=1]
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/BBCodeEditor.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/HideButton.gd" type="Script" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[node name="BlockInfoEditUi" type="VBoxContainer"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[node name="Varible" type="HBoxContainer" parent="."]
+margin_right = 141.0
+margin_bottom = 21.0
+
+[node name="Label" type="Label" parent="Varible"]
+margin_top = 3.0
+margin_right = 37.0
+margin_bottom = 18.0
+text = "Varible:"
+
+[node name="VariblePick" parent="Varible" instance=ExtResource( 2 )]
+margin_left = 41.0
+margin_right = 141.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 25.0
+margin_right = 141.0
+margin_bottom = 29.0
+
+[node name="Set" type="TabContainer" parent="."]
+margin_top = 33.0
+margin_right = 141.0
+margin_bottom = 54.0
+custom_styles/panel = SubResource( 1 )
+tabs_visible = false
+
+[node name="Bool" type="HBoxContainer" parent="Set"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BoolState" type="OptionButton" parent="Set/Bool"]
+margin_right = 141.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+
+[node name="Number" type="GridContainer" parent="Set"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+columns = 2
+
+[node name="Label" type="Label" parent="Set/Number"]
+margin_top = 5.0
+margin_right = 56.0
+margin_bottom = 20.0
+text = "Number:"
+
+[node name="Number" type="SpinBox" parent="Set/Number"]
+margin_left = 60.0
+margin_right = 141.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+allow_greater = true
+allow_lesser = true
+
+[node name="Label2" type="Label" parent="Set/Number"]
+margin_top = 34.0
+margin_right = 56.0
+margin_bottom = 49.0
+text = "Float point:"
+
+[node name="FloatPoint" type="SpinBox" parent="Set/Number"]
+margin_left = 60.0
+margin_top = 29.0
+margin_right = 141.0
+margin_bottom = 54.0
+max_value = 5.0
+
+[node name="NumberActions" type="OptionButton" parent="Set/Number"]
+margin_right = 29.0
+margin_bottom = 21.0
+
+[node name="String" type="VBoxContainer" parent="Set"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="HideButton" type="Button" parent="Set/String"]
+margin_right = 141.0
+margin_bottom = 21.0
+script = ExtResource( 4 )
+hide_node = NodePath("../EditLine")
+replace_node = NodePath("../ExpandEdit")
+on_hide_text = "Collapse"
+on_show_text = "Expand"
+
+[node name="EditLine" type="LineEdit" parent="Set/String"]
+margin_top = 25.0
+margin_right = 141.0
+margin_bottom = 50.0
+
+[node name="ExpandEdit" parent="Set/String" instance=ExtResource( 3 )]
+margin_top = 54.0
+margin_right = 141.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 0, 100 )
+size_flags_horizontal = 3
+
+[connection signal="item_selected" from="Set/Bool/BoolState" to="." method="_on_BoolState_item_selected"]
+[connection signal="value_changed" from="Set/Number/Number" to="." method="_on_Number_value_changed"]
+[connection signal="value_changed" from="Set/Number/FloatPoint" to="." method="_on_FloatPoint_value_changed"]
+[connection signal="item_selected" from="Set/Number/NumberActions" to="." method="_on_NumberActions_item_selected"]
+[connection signal="text_changed" from="Set/String/EditLine" to="." method="_on_EditLine_text_changed"]
+[connection signal="text_changed" from="Set/String/ExpandEdit" to="." method="_on_ExpandEdit_text_changed"]

@@ -1,6 +1,6 @@
 extends Node
 
-var person_dict	: DialogDispetcher.UnicDict = DialogDispetcher.UnicDict.new()
+var person_dict	: UnicDict = UnicDict.new()
 
 func get_persons_list() -> Array:
 	return person_dict.keys()

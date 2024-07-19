@@ -1,0 +1,129 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/Option.gd" type="Script" id=1]
+[ext_resource path="res://UI/HideButton.gd" type="Script" id=2]
+[ext_resource path="res://UI/ScrollablePopupMenu.tscn" type="PackedScene" id=3]
+
+[node name="Option" type="PanelContainer"]
+margin_top = 251.0
+margin_right = 175.0
+margin_bottom = 265.0
+script = ExtResource( 1 )
+
+[node name="List" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 182.0
+margin_bottom = 246.0
+
+[node name="Settings" type="HBoxContainer" parent="List"]
+margin_right = 175.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 175, 0 )
+
+[node name="OptionName" type="LineEdit" parent="List/Settings"]
+margin_right = 153.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
+
+[node name="DelBt" type="Button" parent="List/Settings"]
+margin_left = 157.0
+margin_right = 175.0
+margin_bottom = 25.0
+text = "X"
+
+[node name="DefalutBt" type="Button" parent="List"]
+margin_top = 29.0
+margin_right = 175.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+text = "Set as Defalut"
+
+[node name="HideLine" type="HBoxContainer" parent="List"]
+margin_top = 54.0
+margin_right = 175.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+
+[node name="HideButton" type="Button" parent="List/HideLine"]
+margin_right = 175.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "Hide Condition"
+script = ExtResource( 2 )
+is_hide = true
+hide_node = NodePath("../../ConditionEdit")
+on_hide_text = "Show Condition Edit"
+on_show_text = "Hide Condition Edit"
+
+[node name="WarningIcon" type="ColorRect" parent="List/HideLine"]
+visible = false
+margin_left = 155.0
+margin_right = 175.0
+margin_bottom = 21.0
+rect_min_size = Vector2( 20, 0 )
+color = Color( 1, 0, 0, 1 )
+
+[node name="ConditionEdit" type="VBoxContainer" parent="List"]
+margin_top = 79.0
+margin_right = 175.0
+margin_bottom = 239.0
+
+[node name="HSeparator2" type="HSeparator" parent="List/ConditionEdit"]
+margin_right = 175.0
+margin_bottom = 4.0
+
+[node name="Label" type="Label" parent="List/ConditionEdit"]
+margin_top = 8.0
+margin_right = 175.0
+margin_bottom = 23.0
+text = "Paste Varible:"
+align = 1
+
+[node name="Pastes" type="HBoxContainer" parent="List/ConditionEdit"]
+margin_top = 27.0
+margin_right = 175.0
+margin_bottom = 48.0
+
+[node name="Bools" parent="List/ConditionEdit/Pastes" instance=ExtResource( 3 )]
+margin_right = 55.0
+size_flags_horizontal = 3
+text = "Bool"
+rename_button_on_select = false
+
+[node name="Numbers" parent="List/ConditionEdit/Pastes" instance=ExtResource( 3 )]
+margin_left = 59.0
+margin_right = 115.0
+size_flags_horizontal = 3
+text = "Number"
+rename_button_on_select = false
+
+[node name="Strings" parent="List/ConditionEdit/Pastes" instance=ExtResource( 3 )]
+margin_left = 119.0
+margin_right = 175.0
+size_flags_horizontal = 3
+text = "String"
+rename_button_on_select = false
+
+[node name="HSeparator3" type="HSeparator" parent="List/ConditionEdit"]
+margin_top = 52.0
+margin_right = 175.0
+margin_bottom = 56.0
+
+[node name="Edit" type="TextEdit" parent="List/ConditionEdit"]
+margin_top = 60.0
+margin_right = 175.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 0, 100 )
+highlight_current_line = true
+syntax_highlighting = true
+highlight_all_occurrences = true
+
+[connection signal="text_changed" from="List/Settings/OptionName" to="." method="_on_OptionName_text_changed"]
+[connection signal="pressed" from="List/Settings/DelBt" to="." method="_on_DelBt_pressed"]
+[connection signal="pressed" from="List/DefalutBt" to="." method="_on_DefalutBt_pressed"]
+[connection signal="item_selected" from="List/ConditionEdit/Pastes/Bools" to="." method="_on_Bools_item_selected"]
+[connection signal="item_selected" from="List/ConditionEdit/Pastes/Numbers" to="." method="_on_Numbers_item_selected"]
+[connection signal="item_selected" from="List/ConditionEdit/Pastes/Strings" to="." method="_on_Strings_item_selected"]
+[connection signal="text_changed" from="List/ConditionEdit/Edit" to="." method="_on_Edit_text_changed"]

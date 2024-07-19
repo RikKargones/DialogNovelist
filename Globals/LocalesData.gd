@@ -75,7 +75,7 @@ const LocalesNames = {
 	}
 
 
-class EditorLangInfo extends DialogDispetcher.LangInfo:
+class EditorLangInfo extends LangInfo:
 	func _init(lang_short : String, def_font_name = ""):		
 		if LocalesNames.has(lang_short): translation_res.locale = lang_short
 		defalut_font_name = def_font_name
@@ -101,7 +101,7 @@ class EditorLangInfo extends DialogDispetcher.LangInfo:
 		translation_res.add_message(msg_name, msg)
 
 
-var locale_dict 	: DialogDispetcher.UnicDict 	= DialogDispetcher.UnicDict.new()
+var locale_dict 	: UnicDict 	= UnicDict.new()
 var msg_list		: Array 						= []
 var defalut_locales : Array							= ["en", "ru"]
 

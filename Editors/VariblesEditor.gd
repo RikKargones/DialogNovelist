@@ -7,10 +7,10 @@ onready var type_selector	= $Settings/TypeMenu
 onready var varibles_list 	= $Scroll/VariblesList
 onready var type_menu		= $Settings/TypeMenu
 
-var pck_bool_edit 	= preload("res://UI/EditorsElements/VariblesEditor/Bool.tscn")
-var pck_string_edit = preload("res://UI/EditorsElements/VariblesEditor/String.tscn")
-var pck_number_edit	= preload("res://UI/EditorsElements/VariblesEditor/Number.tscn")
-var pck_signal_edit = preload("res://UI/EditorsElements/VariblesEditor/Signal.tscn")
+var pck_bool_edit 	= preload("res://EditorsElements/VariblesEditor/Bool.tscn")
+var pck_string_edit = preload("res://EditorsElements/VariblesEditor/String.tscn")
+var pck_number_edit	= preload("res://EditorsElements/VariblesEditor/Number.tscn")
+var pck_signal_edit = preload("res://EditorsElements/VariblesEditor/Signal.tscn")
 
 signal search_call(search_text)
 
@@ -75,23 +75,23 @@ func on_element_vibility_change(element : EditVaribleBase, container : PanelCont
 
 
 func _on_AddBoolBt_pressed():
-	var name_popup = NameDialog.new("Name bool varible", VariblesData.get_varibles_and_signals_list(), "", true)
-	Ui.add_popup(name_popup, "name_confurmed", self, "add_bool")
+	var connect_info = Ui.ConnectInfo.new(self, "add_bool")
+	Ui.popup_namer(connect_info, "Name bool varible", VariblesData.get_varibles_and_signals_list(), "", true)
 
 
 func _on_AddNumBt_pressed():
-	var name_popup = NameDialog.new("Name number varible", VariblesData.get_varibles_and_signals_list(), "", true)
-	Ui.add_popup(name_popup, "name_confurmed", self, "add_number")
+	var connect_info = Ui.ConnectInfo.new(self, "add_number")
+	Ui.popup_namer(connect_info, "Name number varible", VariblesData.get_varibles_and_signals_list(), "", true)
 
 
 func _on_AddStringBt_pressed():
-	var name_popup = NameDialog.new("Name string varible", VariblesData.get_varibles_and_signals_list(), "", true)
-	Ui.add_popup(name_popup, "name_confurmed", self, "add_string")
+	var connect_info = Ui.ConnectInfo.new(self, "add_string")
+	Ui.popup_namer(connect_info, "Name string varible", VariblesData.get_varibles_and_signals_list(), "", true)
 
 
 func _on_AddSignalBt_pressed():
-	var name_popup = NameDialog.new("Name signal", VariblesData.get_varibles_and_signals_list(), "", true)
-	Ui.add_popup(name_popup, "name_confurmed", self, "add_signal")
+	var connect_info = Ui.ConnectInfo.new(self, "add_signal")
+	Ui.popup_namer(connect_info, "Name signal", VariblesData.get_varibles_and_signals_list(), "", true)
 
 
 func _on_SearchLine_search_entered(_search_text : String):

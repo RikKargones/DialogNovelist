@@ -1,5 +1,8 @@
 extends Node
 
+class NBI_Start extends NodeBlockInfo:
+	var point_name : String
+	
 
 func disconect_incoming_signals(signals : PoolStringArray, object : Object) -> void:
 	if !is_instance_valid(object): return
@@ -41,17 +44,17 @@ func duplacate_scripted_object(object : Object):
 
 
 func get_align_name(align_id : int) -> String:
-	if align_id < 0 && DialogDispetcher.PersonProfile.ALIGN_LIST.keys().size() <= align_id:
-		return DialogDispetcher.PersonProfile.ALIGN_LIST.keys()[DialogDispetcher.PersonProfile.ALIGN_LIST.CENTER]
-	return DialogDispetcher.PersonProfile.ALIGN_LIST.keys()[align_id]
+	if align_id < 0 && PersonProfile.ALIGN_LIST.keys().size() <= align_id:
+		return PersonProfile.ALIGN_LIST.keys()[PersonProfile.ALIGN_LIST.CENTER]
+	return PersonProfile.ALIGN_LIST.keys()[align_id]
 		
 
 func get_align_index(align_text : String) -> int:
-	var id = DialogDispetcher.PersonProfile.ALIGN_LIST.keys().find(align_text)
+	var id = PersonProfile.ALIGN_LIST.keys().find(align_text)
 	
 	if id == -1: return -1
 	
-	return DialogDispetcher.PersonProfile.ALIGN_LIST.values()[id]
+	return PersonProfile.ALIGN_LIST.values()[id]
 	
 
 func is_dialog_editor_ui_path_valid(path : DialogEditorUiPathBase, error_trower_name = "") -> bool:

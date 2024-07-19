@@ -2,7 +2,7 @@ extends Resource
 
 class_name NodeTemplate
 
-export var pcks_path : Resource = DialogDispetcher.UnicDict.new()
+export var pcks_path : Resource = UnicDict.new()
 
 func add_pck_path(block_key : String, path : String) -> void:
 	pcks_path.add_key(block_key, path)

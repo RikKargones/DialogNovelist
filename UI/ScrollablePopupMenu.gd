@@ -7,6 +7,7 @@ onready var items			= $PopupPanel/ScrollContainer/ItemList
 export var rename_button_on_select = true
 
 var banned_items : PoolStringArray
+var collect_unicdict_items_func : FuncRef
 
 var popup_visible 	= false
 var placeholder		= ""
@@ -18,11 +19,13 @@ signal item_index_selected(item_index)
 
 func disconect_from_unicdict() -> void:
 	EditLibraly.disconect_incoming_signals(["key_aded", "key_deleted", "key_renamed", "cleared"], self)
+	collect_unicdict_items_func = null
 
 
-func connect_to_unicdict(unic_dict : DialogDispetcher.UnicDict) -> void:
+func connect_to_unicdict(unic_dict : UnicDict) -> void:
 	disconect_from_unicdict()
 	
+	collect_unicdict_items_func = funcref(unic_dict, "keys")
 	unic_dict.connect("key_aded", self, "on_dict_add", [unic_dict])
 	unic_dict.connect("key_deleted", self, "on_dict_delete", [unic_dict])
 	unic_dict.connect("key_renamed", self, "on_dict_rename", [unic_dict])
@@ -31,11 +34,11 @@ func connect_to_unicdict(unic_dict : DialogDispetcher.UnicDict) -> void:
 	update_items(unic_dict.keys())
 
 
-func on_dict_add(_key : String, unic_dict : DialogDispetcher.UnicDict) -> void:
+func on_dict_add(_key : String, unic_dict : UnicDict) -> void:
 	update_items(unic_dict.keys())
 
 
-func on_dict_delete(key : String, unic_dict : DialogDispetcher.UnicDict) -> void:	
+func on_dict_delete(key : String, unic_dict : UnicDict) -> void:	
 	if unic_dict.keys().size() != 0 && key == items.get_item_text(get_selected_item()):
 		if items.is_anything_selected():
 			var index = items.get_selected_items()[0]
@@ -46,7 +49,7 @@ func on_dict_delete(key : String, unic_dict : DialogDispetcher.UnicDict) -> void
 	update_items(unic_dict.keys())
 
 
-func on_dict_rename(old_key : String, new_key : String, unic_dict : DialogDispetcher.UnicDict) -> void:
+func on_dict_rename(old_key : String, new_key : String, unic_dict : UnicDict) -> void:
 	if old_key == items.get_item_text(get_selected_item()):
 		update_items(unic_dict.keys(), new_key)
 		return
@@ -54,7 +57,7 @@ func on_dict_rename(old_key : String, new_key : String, unic_dict : DialogDispet
 	update_items(unic_dict.keys())
 
 
-func on_dict_clear(unic_dict : DialogDispetcher.UnicDict) -> void:
+func on_dict_clear(unic_dict : UnicDict) -> void:
 	update_items(unic_dict.keys())
 
 	
@@ -67,10 +70,21 @@ func _physics_process(delta):
 
 func set_banned_items(new_list : PoolStringArray) -> void:
 	banned_items = new_list
+	
+	var items_list = get_items_list()
+	
+	for banned in banned_items:
+		items_list.erase(banned)
+	
+	update_items(items_list)
 
 
-func get_items_list() -> PoolStringArray:
-	var item_list = PoolStringArray([])
+func get_items_list() -> Array:
+	var item_list : Array
+	
+	if is_instance_valid(collect_unicdict_items_func) && collect_unicdict_items_func.is_valid():
+		item_list = collect_unicdict_items_func.call_func()
+		return item_list
 	
 	for item in items.get_item_count():
 		item_list.append(items.get_item_text(item))
@@ -104,9 +118,7 @@ func set_placeholder(new_placeholder : String) -> void:
 	update_items(items_list)
 
 
-func update_items(items_list : PoolStringArray, select_item = ""):
-	if items_list == get_items_list(): return
-	
+func update_items(items_list : Array, select_item = ""):
 	var old_item = ""
 	
 	if items.is_anything_selected(): old_item = items.get_item_text(items.get_selected_items()[0])
@@ -132,7 +144,8 @@ func update_items(items_list : PoolStringArray, select_item = ""):
 			if should_seek_new:
 				emit_signal("list_updated")
 				on_item_selection(aded_id)
-			text = item_text
+				
+			if rename_button_on_select: text = item_text
 	
 	if !items.is_anything_selected() && items.get_item_count() > 0:
 		items.select(0)
@@ -143,6 +156,7 @@ func update_items(items_list : PoolStringArray, select_item = ""):
 	
 		
 func update_items_size():
+	yield(get_tree().create_timer(0.01), "timeout")
 	items_scroller.scroll_vertical_enabled = items.get_item_count() > 10
 	popup_menu.rect_min_size.y = get_font("font").get_height() * 2 * min(items.get_item_count(), 10) + 1
 	popup_menu.rect_size.y = popup_menu.rect_min_size.y

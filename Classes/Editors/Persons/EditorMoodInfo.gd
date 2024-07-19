@@ -1,4 +1,4 @@
-extends DialogDispetcher.MoodInfo
+extends MoodInfo
 
 class_name EditorMoodInfo
 

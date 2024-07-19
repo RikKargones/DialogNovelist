@@ -1,4 +1,4 @@
-extends DialogDispetcher.NBI_Choose
+extends NBI_Choose
 
 class_name NBI_EditorBranch
 

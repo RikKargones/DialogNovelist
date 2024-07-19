@@ -1,4 +1,4 @@
-extends DialogDispetcher.PersonProfile
+extends PersonProfile
 
 class_name EditorPersonInfo
 
@@ -67,12 +67,12 @@ func set_mood_texture(mood : String, mood_group : String, path_to : String) -> v
 	mood_info.set_texture(mood_group, path_to)
 
 
-func get_groups_unicdict() -> DialogDispetcher.UnicDict:
+func get_groups_unicdict() -> UnicDict:
 	var none_info = get_mood_info(Constants.none_key_name)
 	
 	if is_instance_valid(none_info): return none_info.textures
 	
-	return DialogDispetcher.UnicDict.new()
+	return UnicDict.new()
 	
 	
 func erase_group(mood_group : String) -> void:		

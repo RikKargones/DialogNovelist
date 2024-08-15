@@ -31,26 +31,52 @@ signal option_deleted
 
 
 func _ready():
-	VariblesData.connect("varible_aded", self, "update_colors")
-	VariblesData.connect("varible_deleted", self, "update_colors")
-	VariblesData.connect("varible_renamed", self, "update_colors")
+	VariblesData.connect("varible_aded", self, "on_varible_add")
+	VariblesData.connect("varible_deleted", self, "on_varible_delete")
+	VariblesData.connect("varible_renamed", self, "on_varible_rename")
 	
 	bool_select.connect("list_updated", self, "on_list_update")
 	numb_select.connect("list_updated", self, "on_list_update")
 	str_select.connect("list_updated", self, "on_list_update")
-	
-	bool_select.connect_to_unicdict(VariblesData.bool_dict)
-	numb_select.connect_to_unicdict(VariblesData.number_dict)
-	str_select.connect_to_unicdict(VariblesData.string_dict)
 	
 	update_colors()
 
 
 func _exit_tree():
 	if is_instance_valid(timer): timer.disconnect("timeout", self, "check_condition")
+
+
+func on_varible_add(new_var_name : String, select : bool = false) -> void:
+	var bool_list 	= VariblesData.get_bool_list()
+	var num_list	= VariblesData.get_number_list()
+	var str_list	= VariblesData.get_string_list()
 	
+	var select_str = ""
 	
-func update_colors(_one_var_name : String = "", _other_var_name : String = "") -> void:
+	if select: select_str = new_var_name
+	
+	if bool_list.has(new_var_name):
+		bool_select.update_items(bool_list, select_str)
+	elif num_list.has(new_var_name):
+		numb_select.update_items(num_list, select_str)
+	elif str_list.has(new_var_name):
+		str_select.update_items(str_list, select_str)
+		
+	update_colors()
+		
+
+func on_varible_rename(_old_var_name : String, new_var_name : String) -> void:
+	on_varible_add(new_var_name, true)
+
+
+func on_varible_delete(var_name : String) -> void:
+	bool_select.update_items(VariblesData.get_bool_list())
+	numb_select.update_items(VariblesData.get_number_list())
+	str_select.update_items(VariblesData.get_string_list())
+	update_colors()
+
+	
+func update_colors() -> void:
 	condition_edit.clear_colors()
 	
 	for var_name in VariblesData.get_varibles_list():

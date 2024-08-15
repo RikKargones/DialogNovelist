@@ -5,7 +5,7 @@ onready var mood_group_picker	= $Grid/MoodGroupPicker
 
 
 func _ready() -> void:
-	person_picker.connect_to_unicdict(PersonsData.person_dict)
+	person_picker.connect_to_unicdict(PersonsData.get_person_dict())
 	person_picker.set_placeholder(Constants.none_key_name)
 
 

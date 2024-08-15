@@ -9,7 +9,7 @@ var locale 			: String
 
 
 func _ready():
-	font_button.connect_to_unicdict(FontsData.font_dict)
+	font_button.connect_to_unicdict(FontsData.get_font_dict())
 	checkmark_button.connect("toggled", self, "on_checkmark_toggled")
 
 

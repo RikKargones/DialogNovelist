@@ -53,7 +53,7 @@ func on_varible_set(var_name : String) -> bool:
 	
 	if VariblesData.has_varible(var_name):
 		emit_signal("varible_edited", VariblesData.get_varible(var_name))
-	if VariblesData.has_signal(var_name): return _set_value(VariblesData.get_signal_defalut_data(var_name))
+	if VariblesData.has_custom_signal(var_name): return _set_value(VariblesData.get_signal_defalut_data(var_name))
 	return _set_value(VariblesData.get_varible(var_name))
 
 

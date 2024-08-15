@@ -44,6 +44,7 @@ func add_element(new_element : EditVaribleBase, value) -> void:
 	new_element.hide_rename()
 	
 	values.append(value)
+	save_value()
 
 
 func add_bool(value = false) -> void:
@@ -97,10 +98,12 @@ func on_varible_down_call(element : EditVaribleBase) -> void:
 
 func on_varible_edit(value, element : EditVaribleBase) -> void:
 	values[element.get_index()] = value
+	save_value()
 
 
 func on_varible_delete(element : EditVaribleBase) -> void:
 	values.remove(element.get_index())
+	save_value()
 
 
 func _on_AddBool_pressed() -> void:

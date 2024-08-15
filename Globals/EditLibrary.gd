@@ -2,7 +2,75 @@ extends Node
 
 class NBI_Start extends NodeBlockInfo:
 	var point_name : String
+
+
+enum PATH_RESULTS {
+	DIR_NOT_EXIST,
+	FOLDER_EMPTY,
+	FOLDER_HAS_FILES,
+	FILE_EXIST,
+	NOT_A_PATH,
+	CANT_OPEN_DIR,
+	}
+
+var cur_project_folder		= "user://CurProject"
+
+func checkout_path(path : String, is_folder : bool = false) -> int:
+	var dir 			: Directory 	= Directory.new()
+	var file 			: File			= File.new()
+	var path_to_dir 	: String 		= path
 	
+	if !is_folder: path_to_dir = path.get_base_dir()
+	
+	if !path.is_abs_path() && !path.is_rel_path(): 	return PATH_RESULTS.NOT_A_PATH
+	elif file.file_exists(path) && !is_folder:		return PATH_RESULTS.FILE_EXIST
+	elif !dir.dir_exists(path): 					return PATH_RESULTS.DIR_NOT_EXIST
+	
+	var open_error : int = dir.open(path_to_dir)
+	
+	if open_error == OK:
+		dir.list_dir_begin(true)
+		var current_file = dir.get_next()
+		dir.list_dir_end()
+		
+		if current_file == "":
+			return PATH_RESULTS.FOLDER_EMPTY
+		
+		return PATH_RESULTS.FOLDER_HAS_FILES
+	
+	return PATH_RESULTS.CANT_OPEN_DIR
+
+
+func make_string_nambered(st : String, keys : PoolStringArray) -> String:
+	var final_name 		= st
+	var counter			= 1
+	
+	while final_name in keys:
+		final_name = st + "_" + str(counter)
+		counter += 1
+	
+	return final_name
+		
+
+func erase_folder_recursive(dir_path : String) -> void:
+	var dir : Directory = Directory.new()
+	
+	if dir.open(dir_path) != OK:
+		Ui.popup_error("Can't recursivly erase folder.", "FILES_DATA")
+		return
+		
+	dir.list_dir_begin(true)
+	
+	var cur_file = dir.get_next()
+	
+	while cur_file != "":
+		var full_file_path = dir_path.trim_suffix("/") + "/" + cur_file
+		if dir.current_is_dir(): erase_folder_recursive(full_file_path)
+		else: dir.remove(full_file_path)
+		cur_file = dir.get_next()
+	
+	dir.remove(dir_path)
+
 
 func disconect_incoming_signals(signals : PoolStringArray, object : Object) -> void:
 	if !is_instance_valid(object): return
@@ -13,20 +81,7 @@ func disconect_incoming_signals(signals : PoolStringArray, object : Object) -> v
 
 
 func copy_object_propertys(object_one : Object, object_two : Object) -> void:
-	if !is_instance_valid(object_one) || !is_instance_valid(object_two): return
-	
-	var is_in_script_vars = false
-	var var_list = []
-	
-	for property in object_one.get_property_list():
-		if is_in_script_vars:
-			var_list.append([property["name"], property["type"]])
-		else:
-			is_in_script_vars = (property["name"] == "Script Variables")
-	
-	for property in object_two.get_property_list():
-		if [property["name"], property["type"]] in var_list:
-			object_two.set(property["name"], object_one.get(property["name"]))
+	UnicDict.copy_object_propertys(object_one, object_two)
 
 
 func duplacate_scripted_object(object : Object):

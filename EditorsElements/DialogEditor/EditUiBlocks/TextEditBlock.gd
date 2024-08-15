@@ -12,8 +12,8 @@ const font_locale_end_key : String = "font"
 func _ready() -> void:
 	person_pick.set_placeholder(Constants.none_key_name)
 	font_pick.set_placeholder(Constants.defalut_key_name)
-	person_pick.connect_to_unicdict(PersonsData.person_dict)
-	font_pick.connect_to_unicdict(FontsData.font_dict)
+	person_pick.connect_to_unicdict(PersonsData.get_person_dict())
+	font_pick.connect_to_unicdict(FontsData.get_font_dict())
 
 
 func _update_ui() -> void:

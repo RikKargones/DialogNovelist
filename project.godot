@@ -24,10 +24,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://EditorsElements/DialogEditor/BlockInfoUi.gd"
 }, {
+"base": "CheckBox",
+"class": "BoolEdit",
+"language": "GDScript",
+"path": "res://UI/VaribleEdit/BoolEdit.gd"
+}, {
 "base": "ConfirmationDialog",
 "class": "ConfirmPopup",
 "language": "GDScript",
 "path": "res://UI/Popups/ConfurmPopup.gd"
+}, {
+"base": "Resource",
+"class": "ConflictCheck",
+"language": "GDScript",
+"path": "res://EditorsElements/DialogEditor/CustomConflicts/ConflictCheck.gd"
 }, {
 "base": "NodeInfoMsg",
 "class": "ConnectionMsg",
@@ -84,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Classes/Editors/Dialogs/EditorDialogData.gd"
 }, {
+"base": "FontInfo",
+"class": "EditorFontInfo",
+"language": "GDScript",
+"path": "res://Classes/Editors/Fonts/EditorFontInfo.gd"
+}, {
 "base": "MoodInfo",
 "class": "EditorMoodInfo",
 "language": "GDScript",
@@ -103,6 +118,11 @@ _global_script_classes=[ {
 "class": "ErrorPopup",
 "language": "GDScript",
 "path": "res://UI/Popups/ErrorPopup.gd"
+}, {
+"base": "Resource",
+"class": "ExternalRes",
+"language": "GDScript",
+"path": "res://Classes/ExternalRes.gd"
 }, {
 "base": "FileDialog",
 "class": "FilePopup",
@@ -214,6 +234,26 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/Popups/NameSetter.gd"
 }, {
+"base": "ConflictCheck",
+"class": "NoDialogsConflicts",
+"language": "GDScript",
+"path": "res://EditorsElements/DialogEditor/CustomConflicts/NoDialogsConflicts.gd"
+}, {
+"base": "ConflictCheck",
+"class": "NoPersonConflictCheck",
+"language": "GDScript",
+"path": "res://EditorsElements/DialogEditor/CustomConflicts/NoPersonConflict.gd"
+}, {
+"base": "ConflictCheck",
+"class": "NoSignalConflictCheck",
+"language": "GDScript",
+"path": "res://EditorsElements/DialogEditor/CustomConflicts/NoSignalConflict.gd"
+}, {
+"base": "ConflictCheck",
+"class": "NoVaribleConflictCheck",
+"language": "GDScript",
+"path": "res://EditorsElements/DialogEditor/CustomConflicts/NoVaribleConflict.gd"
+}, {
 "base": "Resource",
 "class": "NodeBlockInfo",
 "language": "GDScript",
@@ -254,10 +294,40 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ExportGDS/DialogElements/Personed_NBI.gd"
 }, {
+"base": "Resource",
+"class": "ProjectData",
+"language": "GDScript",
+"path": "res://Classes/ProjectData.gd"
+}, {
+"base": "ResourceFormatSaver",
+"class": "ProjectFomatSaver",
+"language": "GDScript",
+"path": "res://Classes/FormatSavers/ProjectFormatSaver.gd"
+}, {
+"base": "ResourceFormatLoader",
+"class": "ProjectFormatLoader",
+"language": "GDScript",
+"path": "res://Classes/FormatLoaders/ProjectFormatLoader.gd"
+}, {
+"base": "Resource",
+"class": "ProjectMetadata",
+"language": "GDScript",
+"path": "res://Classes/ProjectMetadata.gd"
+}, {
+"base": "Resource",
+"class": "ProjectSaveInfo",
+"language": "GDScript",
+"path": "res://Classes/ProjectSaveInfo.gd"
+}, {
 "base": "Label",
 "class": "SidedLabel",
 "language": "GDScript",
 "path": "res://UI/FlippedLabel.gd"
+}, {
+"base": "Resource",
+"class": "TimeStamp",
+"language": "GDScript",
+"path": "res://Classes/TimeStamp.gd"
 }, {
 "base": "Resource",
 "class": "UnicDict",
@@ -268,7 +338,9 @@ _global_script_class_icons={
 "BlockInfoEditUi": "",
 "BlockInfoGraphUi": "",
 "BlockInfoUi": "",
+"BoolEdit": "",
 "ConfirmPopup": "",
+"ConflictCheck": "",
 "ConnectionMsg": "",
 "DialogEditorUiPathBase": "",
 "DialogInfo": "",
@@ -280,10 +352,12 @@ _global_script_class_icons={
 "EditOptionUi": "",
 "EditVaribleBase": "",
 "EditorDialogInfo": "",
+"EditorFontInfo": "",
 "EditorMoodInfo": "",
 "EditorNodeInfo": "",
 "EditorPersonInfo": "",
 "ErrorPopup": "",
+"ExternalRes": "",
 "FilePopup": "",
 "FontInfo": "",
 "HideButton": "",
@@ -306,6 +380,10 @@ _global_script_class_icons={
 "NBI_V_String": "",
 "NBI_Varible": "",
 "NameDialog": "",
+"NoDialogsConflicts": "",
+"NoPersonConflictCheck": "",
+"NoSignalConflictCheck": "",
+"NoVaribleConflictCheck": "",
 "NodeBlockInfo": "",
 "NodeBlockPath": "",
 "NodeInfo": "",
@@ -314,7 +392,13 @@ _global_script_class_icons={
 "NodeTemplate": "",
 "PersonProfile": "",
 "Personed_NBI": "",
+"ProjectData": "",
+"ProjectFomatSaver": "",
+"ProjectFormatLoader": "",
+"ProjectMetadata": "",
+"ProjectSaveInfo": "",
 "SidedLabel": "",
+"TimeStamp": "",
 "UnicDict": ""
 }
 
@@ -323,23 +407,29 @@ _global_script_class_icons={
 config/name="DialogNovelist"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
+config/auto_accept_quit=false
+config/quit_on_go_back=false
 
 [autoload]
 
-DialogDispetcher="*res://ExportGDS/DialogDispetcher.gd"
 Ui="*res://Globals/UI.gd"
 Constants="*res://Globals/Constants.gd"
-FilesData="*res://Globals/FilesData.gd"
+DialogDispetcher="*res://ExportGDS/DialogDispetcher.gd"
+DialogStorage="*res://ExportGDS/DialogStorage.gd"
 EditLibraly="*res://Globals/EditLibrary.gd"
+Project="*res://Globals/Project.gd"
 VariblesData="*res://Globals/VariblesData.gd"
 LocalesData="*res://Globals/LocalesData.gd"
 FontsData="*res://Globals/FontsData.gd"
 PersonsData="*res://Globals/PersonsData.gd"
 DialogsData="*res://Globals/DialogsData.gd"
-Project="*res://Globals/Project.gd"
+FIlesData="*res://Globals/FIlesData.gd"
+ProjectsManager="*res://Globals/ProjectsManager.gd"
+Exporter="*res://Globals/Exporter.gd"
 
 [debug]
 
+settings/stdout/verbose_stdout=true
 gdscript/completion/autocomplete_setters_and_getters=true
 gdscript/warnings/unsafe_call_argument=true
 

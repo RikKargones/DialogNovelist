@@ -26,7 +26,7 @@ func set_text(new_text : String, silent = false) -> void:
 	ajust_popup()
 
 
-func set_font(fontdata : FontsData.EditorFontInfo) -> void:
+func set_font(fontdata : EditorFontInfo) -> void:
 	bbcode_show.remove_font_override("normal_font")
 	bbcode_show.remove_font_override("bold_font")
 	bbcode_show.remove_font_override("italics_font")
@@ -40,14 +40,16 @@ func set_font(fontdata : FontsData.EditorFontInfo) -> void:
 	bbcode_show.add_font_override("bold_italics_font", fontdata.italic_bold)
 
 
-func ajust_popup() -> void:
+func ajust_popup(awaited = false) -> void:
 	if is_queued_for_deletion(): return
 	
-	popup_panel.visible = (text.strip_edges() != "")
+	popup_panel.visible = (text.strip_edges() != "") && visible
 	
 	if !popup_panel.visible: return
 	
-	yield(get_tree(), "idle_frame")
+	if !awaited:
+		Ui.trigger_after(0.01, Ui.ConnectInfo.new(self, "ajust_popup", [true]))
+		return
 	
 	var height_diff = bbcode_show.rect_global_position.y - popup_panel.rect_global_position.y
 	var fin_y		= code_edit.rect_global_position.y + code_edit.rect_size.y / 2
@@ -71,7 +73,7 @@ func ajust_popup() -> void:
 
 
 func is_on_edit() -> bool:
-	if !code_edit.visible: return false
+	if !code_edit.visible || !visible: return false
 	
 	return code_edit.get_global_rect().has_point(get_global_mouse_position())
 

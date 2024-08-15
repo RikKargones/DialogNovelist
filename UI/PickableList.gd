@@ -139,15 +139,12 @@ func _on_Search_search_entered(search_text : String) -> void:
 
 
 func _on_AddBt_ready():
-	if !is_inside_tree(): yield(self, "ready")
 	$All/AddBt.set_deferred("text", "Add " + button_suffix + "...")
 
 
 func _on_RenameBt_ready():
-	if !is_inside_tree(): yield(self, "ready")
 	$All/RenameBt.set_deferred("text", "Rename " + button_suffix + "...")
 
 
 func _on_DeleteBt_ready():
-	if !is_inside_tree(): yield(self, "ready")
 	$All/DeleteBt.set_deferred("text", "Delete " + button_suffix + "...")

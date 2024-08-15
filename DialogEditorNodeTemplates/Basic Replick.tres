@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/BlockUiPathInfo/Text Block.tres" type="Resource" id=1]
+[ext_resource path="res://Classes/DialogEditorDatas/DialogNodeTemplate.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+block_list = [ ExtResource( 1 ) ]
+sinhronization_list = {
+}

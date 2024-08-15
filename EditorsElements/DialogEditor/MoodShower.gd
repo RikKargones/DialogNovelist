@@ -76,7 +76,6 @@ func update_variants() -> void:
 	
 	if blockinfo is NBI_Mood:
 		if PersonsData.get_persons_list().has(blockinfo.person) && (blockinfo.mood == Constants.keep_key_name || blockinfo.group == Constants.keep_key_name):
-			var dialog = block_path.get_dialog_info()
 			respond_buffer.clear()
 			
 			var msg = MoodBlockFetchRequest.new()

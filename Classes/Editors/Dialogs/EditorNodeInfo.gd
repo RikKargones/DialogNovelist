@@ -7,9 +7,10 @@ export var block_pcks 			: Resource = UnicDict.new()
 export var offset 				: Vector2
 export var sinhronize_connects	: Resource = UnicDict.new()
 
-signal block_aded
-signal block_sinhronized
-signal block_erased
+signal block_aded(block_key)
+signal block_sinhronized(block_key)
+signal block_erased(block_key)
+signal block_replaced(block_key)
 
 signal connections_updated
 signal msg_recived(msg)
@@ -148,7 +149,7 @@ func is_block_fresh(block_key : String) -> bool:
 func add_block(pck_path : DialogEditorUiPathBase, set_data : NodeBlockInfo = null) -> String:
 	if !EditLibraly.is_dialog_editor_ui_path_valid(pck_path): return ""
 	
-	var final_key : String = FilesData.make_string_nambered(pck_path.base_key, get_blocks_list())
+	var final_key : String = EditLibraly.make_string_nambered(pck_path.base_key, get_blocks_list())
 	
 	block_pcks.add_key(final_key, pck_path)
 	blocks.add_key(final_key, set_data)
@@ -181,6 +182,23 @@ func sort_blocks() -> void:
 				blocks.move_key_position(block, blocks.keys().size())
 
 
+func replace_block(block_key : String, data : NodeBlockInfo) -> void:
+	if !is_instance_valid(data) || !blocks.has(block_key): return
+	
+	var block = get_block(block_key)
+	
+	if block.get_script() == data.get_script():
+		save_block(block_key, data)
+		return
+	
+	if block.is_connected("changed", self, "sinhronize_keys"):
+		data.connect("changed", self, "sinhronize_keys", [block_key])
+	
+	blocks.set_key(block_key, data)
+	
+	emit_signal("block_replaced", block_key)
+
+
 func save_block(block_key : String, from_data : NodeBlockInfo) -> void:
 	var block = get_block(block_key)
 	
@@ -203,3 +221,19 @@ func erase_block(key : String) -> void:
 		sinhronize_connects.get_value(other_key).erase(key)
 	
 	emit_signal("block_erased", key)
+
+
+func to_dict() -> Dictionary:
+	var dict : Dictionary = {"Blocks" : {}, "PCKs" : {}}
+	
+	for block_name in blocks.keys():
+		var block = blocks.get_value(block_name)
+		if block is NodeBlockInfo:
+			dict["Blocks"][block_name] = inst2dict(block)
+	
+	for pck_name in block_pcks.keys():
+		var pck = block_pcks.get_value(pck_name)
+		if pck is DialogEditorUiPathBase:
+			dict["PCKs"][pck_name] = pck.resource_path
+	
+	return dict

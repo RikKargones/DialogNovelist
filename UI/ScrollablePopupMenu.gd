@@ -156,9 +156,12 @@ func update_items(items_list : Array, select_item = ""):
 	
 		
 func update_items_size():
-	yield(get_tree().create_timer(0.01), "timeout")
+	Ui.trigger_after(0.01, Ui.ConnectInfo.new(self, "resize_popup_menu"))
+
+
+func resize_popup_menu() -> void:
 	items_scroller.scroll_vertical_enabled = items.get_item_count() > 10
-	popup_menu.rect_min_size.y = get_font("font").get_height() * 2 * min(items.get_item_count(), 10) + 1
+	popup_menu.rect_min_size.y = (get_font("font").get_height() + 5) * min(items.get_item_count(), 10)
 	popup_menu.rect_size.y = popup_menu.rect_min_size.y
 
 

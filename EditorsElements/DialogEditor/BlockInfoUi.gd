@@ -12,7 +12,7 @@ func _init() -> void:
 func set_blockinfo_path(new_block_path : NodeBlockPath) -> void:
 	if !is_instance_valid(new_block_path): return
 	
-	EditLibraly.disconect_incoming_signals(["block_sinhronized", "connections_updated", "msg_recived", "msg_recived_from_back", "msg_recived_from_next"], self)
+	EditLibraly.disconect_incoming_signals(["block_sinhronized", "connections_updated", "msg_recived", "msg_recived_from_back", "msg_recived_from_next", "block_replaced"], self)
 	
 	var nodeinfo = new_block_path.get_node_info()
 	
@@ -23,12 +23,18 @@ func set_blockinfo_path(new_block_path : NodeBlockPath) -> void:
 	
 	_load_blockinfo()
 	
+	nodeinfo.connect("block_replaced", self, "on_block_replace")
 	nodeinfo.connect("msg_recived", self, "_on_msg_recive")
 	nodeinfo.connect("msg_recived_from_back", self, "_on_msg_recive_from_back")
 	nodeinfo.connect("msg_recived_from_next", self, "_on_msg_recive_from_next")
 	nodeinfo.connect("block_sinhronized", self, "on_block_sinhronization", [block_path.node])
 	nodeinfo.connect("connections_updated", self, "_on_connections_update")
 	
+
+func on_block_replace(block_key : String) -> void:
+	if block_path.block != block_key: return
+	_load_blockinfo()	
+
 
 func on_block_sinhronization(block_key : String, node_key : String) -> void:
 	if block_path.block != block_key || block_path.node != node_key: return
@@ -57,6 +63,10 @@ func _load_blockinfo() -> void:
 func _update_ui() -> void:
 	pass
 	
+
+func _get_blockinfo_script() -> GDScript:
+	return null	
+
 	
 func _on_connections_update() -> void:
 	_update_ui()
@@ -73,6 +83,3 @@ func _on_msg_recive_from_next(msg : NodeInfoMsg) -> void:
 func _on_msg_recive_from_back(msg : NodeInfoMsg) -> void:
 	pass
 
-
-func _get_blockinfo_script() -> GDScript:
-	return null

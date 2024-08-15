@@ -12,3 +12,4 @@ func get_blocks_list() -> Array:
 
 func get_block(key : String) -> NodeBlockInfo:
 	return blocks.get_value(key)
+

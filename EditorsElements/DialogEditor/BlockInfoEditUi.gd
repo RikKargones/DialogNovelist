@@ -57,6 +57,14 @@ func send_msg_to_back_nodes(msg : NodeInfoMsg) -> void:
 
 func is_loading() -> bool:
 	return on_load
+	
+	
+func replace_block_data(new_blockinfo : NodeBlockInfo) -> void:
+	var nodeinfo = block_path.get_node_info()
+	
+	if !is_instance_valid(new_blockinfo) || !is_instance_valid(nodeinfo): return
+	
+	nodeinfo.replace_block(block_path.block, new_blockinfo)
 
 
 func save_changes(save_blockinfo : NodeBlockInfo) -> void:

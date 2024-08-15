@@ -37,12 +37,12 @@ const font_formats : Array		= ["*.otf ; Open Type Font", "*.ttf ; True Type Font
 signal font_list_updated
 
 func _ready():	
-	font_list.connect_to_unicdict(FontsData.font_dict)
+	font_list.connect_to_unicdict(FontsData.get_font_dict())
 	font_list.set_unchangable_items([Constants.defalut_key_name])
-	compare_type_picker.update_items(FontsData.EditorFontInfo.TYPE.keys())
+	compare_type_picker.update_items(EditorFontInfo.TYPE.keys())
 
 
-func get_fontinfo() -> FontsData.EditorFontInfo:
+func get_fontinfo() -> EditorFontInfo:
 	return FontsData.get_fontinfo(font_list.get_selected_item())
 
 
@@ -54,22 +54,23 @@ func get_font_type(type : int) -> DynamicFont:
 	return fontinfo.get_font_type(type)
 
 
-func open_font(font_id = FontsData.EditorFontInfo.TYPE.NORMAL):
+func open_font(font_id = EditorFontInfo.TYPE.NORMAL):
 	var selected_item = font_list.get_selected_item()
-	var font_info : FontsData.EditorFontInfo = FontsData.get_fontinfo(selected_item)
+	
+	var font_info : EditorFontInfo = FontsData.get_fontinfo(selected_item)
 	
 	if !is_instance_valid(font_info): return
 	
 	var title = "Pick {type} variant for " + selected_item + " font..."
 	
 	match font_id:
-		FontsData.EditorFontInfo.TYPE.NORMAL:
+		EditorFontInfo.TYPE.NORMAL:
 			title = title.format(["NORMAL"],"{type}")
-		FontsData.EditorFontInfo.TYPE.BOLD:
+		EditorFontInfo.TYPE.BOLD:
 			title = title.format(["BOLD"],"{type}")
-		FontsData.EditorFontInfo.TYPE.ITALIC:
+		EditorFontInfo.TYPE.ITALIC:
 			title = title.format(["ITALIC"],"{type}")
-		FontsData.EditorFontInfo.TYPE.ITALIC_BOLD:
+		EditorFontInfo.TYPE.ITALIC_BOLD:
 			title = title.format(["ITALIC-BOLD"],"{type}")
 		_:
 			return
@@ -81,7 +82,7 @@ func open_font(font_id = FontsData.EditorFontInfo.TYPE.NORMAL):
 func load_metrics():
 	if !is_instance_valid(get_fontinfo()): return
 	
-	var font = get_font_type(FontsData.EditorFontInfo.TYPE.NORMAL)
+	var font = get_font_type(EditorFontInfo.TYPE.NORMAL)
 	
 	if is_instance_valid(font):		
 		font_size_box.value 	= font.size
@@ -136,23 +137,23 @@ func update_fonts():
 
 
 func _on_NormalFontChange_pressed():
-	open_font(FontsData.EditorFontInfo.TYPE.NORMAL)
+	open_font(EditorFontInfo.TYPE.NORMAL)
 
 
 func _on_ItalicFontChange_pressed():
-	open_font(FontsData.EditorFontInfo.TYPE.ITALIC)
+	open_font(EditorFontInfo.TYPE.ITALIC)
 
 	
 func _on_BoldFontChange_pressed():
-	open_font(FontsData.EditorFontInfo.TYPE.BOLD)
+	open_font(EditorFontInfo.TYPE.BOLD)
 
 
 func _on_ItalicBoldFontChange_pressed():
-	open_font(FontsData.EditorFontInfo.TYPE.ITALIC_BOLD)
+	open_font(EditorFontInfo.TYPE.ITALIC_BOLD)
 
 
 func _on_FontSize_value_changed(value : int):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 	
 		if is_instance_valid(font):
@@ -162,7 +163,7 @@ func _on_FontSize_value_changed(value : int):
 
 
 func _on_OutlineSize_value_changed(value : int):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 		
 		if is_instance_valid(font):
@@ -172,7 +173,7 @@ func _on_OutlineSize_value_changed(value : int):
 
 
 func _on_OutlineColor_color_changed(color : Color):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 		
 		if is_instance_valid(font):
@@ -182,7 +183,7 @@ func _on_OutlineColor_color_changed(color : Color):
 
 
 func _on_MinimapsCheck_toggled(button_pressed : bool):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 	
 		if is_instance_valid(font):
@@ -192,7 +193,7 @@ func _on_MinimapsCheck_toggled(button_pressed : bool):
 
 
 func _on_FilterCheck_toggled(button_pressed : bool):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 	
 		if is_instance_valid(font):
@@ -202,7 +203,7 @@ func _on_FilterCheck_toggled(button_pressed : bool):
 
 
 func _on_Top_value_changed(value : int):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 	
 		if is_instance_valid(font):
@@ -212,7 +213,7 @@ func _on_Top_value_changed(value : int):
 	
 
 func _on_Bottom_value_changed(value : int):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 		
 		if is_instance_valid(font):
@@ -222,7 +223,7 @@ func _on_Bottom_value_changed(value : int):
 
 
 func _on_Char_value_changed(value : int):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 	
 		if is_instance_valid(font):
@@ -232,7 +233,7 @@ func _on_Char_value_changed(value : int):
 
 
 func _on_Space_value_changed(value : int):
-	for type in FontsData.EditorFontInfo.TYPE.values():
+	for type in EditorFontInfo.TYPE.values():
 		var font = get_font_type(type)
 		
 		if is_instance_valid(font):
@@ -242,8 +243,8 @@ func _on_Space_value_changed(value : int):
 
 
 func on_add_font_name(font_path : String) -> void:
-	var fontinfo = FontsData.EditorFontInfo.new()
-	var file_name = FilesData.make_string_nambered(font_path.get_file().rsplit(".", false, 1)[0], FontsData.font_dict.keys())
+	var fontinfo = EditorFontInfo.new()
+	var file_name = EditLibraly.make_string_nambered(font_path.get_file().rsplit(font_path.get_extension(), false, 1)[0], FontsData.get_font_dict().keys())
 	fontinfo.set_font_type(font_path)
 	FontsData.add_fontinfo(file_name, fontinfo)
 
@@ -303,8 +304,8 @@ func _on_WithFont_text_changed(new_text : String):
 
 
 func update_compare_fonts() -> void:
-	var compare_font_info 	: FontsData.EditorFontInfo = FontsData.get_fontinfo(compare_font_picker.get_selected_item_text())
-	var main_font_info		: FontsData.EditorFontInfo = get_fontinfo()
+	var compare_font_info 	: EditorFontInfo = FontsData.get_fontinfo(compare_font_picker.get_selected_item_text())
+	var main_font_info		: EditorFontInfo = get_fontinfo()
 	
 	compare_font_up.remove_font_override("font")
 	compare_font_left.remove_font_override("font")

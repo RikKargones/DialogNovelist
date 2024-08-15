@@ -5,7 +5,7 @@ class_name EditorPersonInfo
 signal group_list_update(groups_list)
 
 func _notification(what) -> void:
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_PREDELETE && is_instance_valid(LocalesData):
 		LocalesData.erase_locales_msg(person_name_locale_key)
 		LocalesData.erase_locales_msg(defalut_font_locale_key)
 
@@ -59,12 +59,12 @@ func rename_mood(old_mood_name : String, new_mood_name : String) -> void:
 	moods.rename_key(old_mood_name, new_mood_name)
 
 
-func set_mood_texture(mood : String, mood_group : String, path_to : String) -> void:
+func set_mood_texture(mood : String, mood_group : String, file_path : String) -> void:
 	if !mood in get_mood_list(): return
 	
 	var mood_info : EditorMoodInfo = get_mood_info(mood)
 	
-	mood_info.set_texture(mood_group, path_to)
+	mood_info.set_texture(mood_group, file_path)
 
 
 func get_groups_unicdict() -> UnicDict:

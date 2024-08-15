@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/DialogEditorUiPathBase.gd" type="Script" id=1]
+[ext_resource path="res://EditorsElements/DialogEditor/EditUiBlocks/SignalEditBlock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://EditorsElements/DialogEditor/GraphUiBlocks/SignalBlock.tscn" type="PackedScene" id=3]
+[ext_resource path="res://EditorsElements/DialogEditor/CustomConflicts/BasicNoSignal.tres" type="Resource" id=4]
+
+[resource]
+script = ExtResource( 1 )
+base_key = "Signal"
+edit_ui_scene = ExtResource( 2 )
+graph_node_ui_scene = ExtResource( 3 )
+order_flag = 0
+conflicts = ExtResource( 4 )

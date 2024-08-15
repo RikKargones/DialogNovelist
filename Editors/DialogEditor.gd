@@ -21,6 +21,8 @@ var node_ui_templates 	: UnicDict 		= UnicDict.new()
 var edit_node 			: DialogNodeUi
 var confict_list 		: Dictionary
 
+var lang_sets_pck		: PackedScene 	= preload("res://UI/LangSets.tscn")
+
 const add_empty_key = "Add Empty Node"
 
 
@@ -47,9 +49,6 @@ func load_paths() -> void:
 					var show_inst : BlockInfoGraphUi 	= res.graph_node_ui_scene.instance()
 					
 					node_ui_paths.add_key(cur_file.trim_suffix(".tres"), res)
-	
-					if res.conflict_blocks.size() > 0:
-						confict_list[res.base_key] = res.conflict_blocks
 				
 		cur_file = dir.get_next()
 		
@@ -75,9 +74,10 @@ func load_templates() -> void:
 				if res.block_list.size() == 0: continue
 				
 				node_ui_templates.add_key(cur_file.trim_suffix(".tres"), res)
-				templates_menu.add_item(cur_file.trim_suffix(".tres"))
 				
 		cur_file = dir.get_next()
+	
+	update_template_menu_list()
 				
 
 func _ready() -> void:
@@ -86,7 +86,7 @@ func _ready() -> void:
 	
 	blocker.visible = true
 	
-	dialog_list.connect_to_unicdict(DialogsData.dialogs)
+	dialog_list.connect_to_unicdict(DialogsData.get_dialogs_dict())
 	add_setting_selector.connect_to_unicdict(node_ui_paths)
 	node_edit_ui.visible = false
 	
@@ -95,12 +95,28 @@ func _ready() -> void:
 	add_menu.add_item("Templates")
 	add_menu.set_item_submenu(1, templates_menu.name)
 	add_menu.set_item_disabled(1, templates_menu.items.size() == 0)
+	
+	var lang_set = lang_sets_pck.instance()
+	
+	map.get_zoom_hbox().add_child(lang_set)
 
 
 func get_current_dialoginfo() -> EditorDialogInfo:
-	blocker.visible = DialogsData.dialogs.keys().size() == 0
+	blocker.visible = DialogsData.get_dialogs_dict().keys().size() == 0
 	
 	return DialogsData.get_dialog(dialog_list.get_selected_item())
+
+
+func update_template_menu_list() -> void:
+	var template_list = []
+	
+	templates_menu.clear()
+	
+	for template_key in node_ui_templates.keys():
+		var template : DialogNodeTemplate = node_ui_templates.get_value(template_key)
+		
+		if !is_instance_valid(template): continue
+		if !template.has_inside_conflicts(): templates_menu.add_item(template_key)
 
 
 func update_add_block_conflicts() -> void:
@@ -109,17 +125,23 @@ func update_add_block_conflicts() -> void:
 	var nodeinfo = edit_node.nodeinfo_path.get_node_info()
 	
 	if !is_instance_valid(nodeinfo):
-		add_setting_selector.set_banned_items([])
+		update_add_selector_ban_list([])
 		return
 	
 	var ban_list = []
 	
-	for block_name in nodeinfo.get_blocks_list():
-		for conflict in confict_list.keys():
-			if block_name.begins_with(conflict):
-				ban_list.append_array(confict_list[conflict])
-				break
+	for path_key in node_ui_paths.keys():
+		var path : DialogEditorUiPathBase = node_ui_paths.get_value(path_key)
+		if !is_instance_valid(path): continue
+		var conflict_check : ConflictCheck = path.conflicts
+		if !is_instance_valid(conflict_check): continue
+		if conflict_check.is_conflicting(nodeinfo.block_pcks.values()):
+			ban_list.append(path_key)
 	
+	update_add_selector_ban_list(ban_list)
+
+
+func update_add_selector_ban_list(ban_list : Array) -> void:
 	add_setting_selector.disconnect("item_selected", self, "_on_AddSettingBt_item_selected")
 	add_setting_selector.set_banned_items(ban_list)
 	add_setting_selector.connect("item_selected", self, "_on_AddSettingBt_item_selected")
@@ -132,6 +154,7 @@ func set_edit_node(node : DialogNodeUi) -> void:
 	
 	if is_instance_valid(edit_node):
 		edit_node.self_modulate = Color.white
+		edit_node.selected = false
 		edit_node = null
 	
 	node_edit_ui.visible = is_instance_valid(node) && is_instance_valid(dialogdata)
@@ -245,10 +268,18 @@ func clear_map() -> void:
 			child.queue_free()
 
 
-func load_current_dialog() -> void:
+func clean_map_with_await() -> void:
 	clear_map()
 	
-	yield(get_tree().create_timer(0.1), "timeout")
+	Ui.trigger_after(0.01, Ui.ConnectInfo.new(self, "load_current_dialog"))
+	
+
+func load_current_dialog() -> void:
+	if map.get_child_count() > 0:
+		for child in map.get_children():
+			if child is GraphNode:
+				clean_map_with_await()
+				return
 	
 	var diainfo = get_current_dialoginfo()
 	
@@ -263,7 +294,7 @@ func load_current_dialog() -> void:
 
 func _on_DialogList_add_item_request() -> void:
 	var connect_info = Ui.ConnectInfo.new(DialogsData, "add_dialog")
-	Ui.popup_namer(connect_info, "Name new dialog...", DialogsData.dialogs.keys(), "Dialog name:", true)
+	Ui.popup_namer(connect_info, "Name new dialog...", DialogsData.get_dialogs_dict().keys(), "Dialog name:", true)
 
 
 func _on_HideButton_hide_hidable_node() -> void:
@@ -315,7 +346,7 @@ func _on_Map_connection_request(from : String, from_slot : int, to : String, to_
 	map.connect_node(from, from_slot, to, 0)
 
 
-func _on_Map_connection_from_empty(to, to_slot, release_position) -> void:
+func _on_Map_connection_from_empty(to, to_slot, _release_position) -> void:
 	var dialoginfo = get_current_dialoginfo()
 	
 	if !is_instance_valid(dialoginfo): return
@@ -324,7 +355,7 @@ func _on_Map_connection_from_empty(to, to_slot, release_position) -> void:
 		disconnect_node(map.get_node(con["node"]), to, con["slot"])
 	
 	
-func _on_Map_connection_to_empty(from, from_slot, release_position) -> void:
+func _on_Map_connection_to_empty(from, from_slot, _release_position) -> void:
 	var dialoginfo = get_current_dialoginfo()
 	
 	if !is_instance_valid(dialoginfo): return
@@ -332,7 +363,7 @@ func _on_Map_connection_to_empty(from, from_slot, release_position) -> void:
 	erase_port_connections(from_slot, map.get_node(from))
 
 
-func _on_Map_disconnection_request(from, from_slot, to, to_slot) -> void:
+func _on_Map_disconnection_request(from, from_slot, to, _to_slot) -> void:
 	var dialoginfo = get_current_dialoginfo()
 	
 	if !is_instance_valid(dialoginfo): return
@@ -356,7 +387,7 @@ func _on_DialogList_item_selected(_item_name : String) -> void:
 
 func _on_DialogList_rename_item_request(item_name : String) -> void:
 	var connect_info = Ui.ConnectInfo.new(DialogsData, "rename_dialog", [item_name])
-	Ui.popup_namer(connect_info, "Rename dialog...", DialogsData.dialogs.keys(), "New dialog name:", true)
+	Ui.popup_namer(connect_info, "Rename dialog...", DialogsData.get_dialogs_dict().keys(), "New dialog name:", true)
 
 
 func _on_IsStart_toggled(button_pressed : bool) -> void:
@@ -369,7 +400,7 @@ func _on_IsStart_toggled(button_pressed : bool) -> void:
 	
 	if button_pressed:
 		var defname = edit_node.nodeinfo_path.dialog + "_StartPoint"
-		dialoginfo.add_start_node(edit_node.name, FilesData.make_string_nambered(defname, dialoginfo.get_start_nodes_names()))
+		dialoginfo.add_start_node(edit_node.name, EditLibraly.make_string_nambered(defname, dialoginfo.get_start_nodes_names()))
 		start_point_name.text = dialoginfo.get_start_node_name(edit_node.name)
 	else:
 		dialoginfo.erase_start_node(edit_node.name)
@@ -396,7 +427,7 @@ func set_start_node_name(new_start_node_name : String, node_name : String) -> vo
 	start_point_name.text = dialoginfo.get_start_node_name(node_name)
 
 
-func _on_DialogNodeSettingsHandler_child_exiting_tree(node : Node) -> void:
+func _on_DialogNodeSettingsHandler_child_exiting_tree(_node : Node) -> void:
 	update_add_block_conflicts()
 
 
@@ -406,3 +437,10 @@ func _on_TemplatesMenu_index_pressed(index : int) -> void:
 
 func _on_Map_child_exiting_tree(node : DialogNodeUi) -> void:
 	if node == edit_node: set_edit_node(null)
+
+
+func _on_DialogEditor_visibility_changed() -> void:
+	if !visible: return
+	
+	update_add_block_conflicts()
+	update_template_menu_list()

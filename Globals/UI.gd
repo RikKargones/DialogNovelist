@@ -1,7 +1,7 @@
 extends Node
 
 var try_show_popups = false
-var popups 			= []
+var popups 			: Array
 
 class ConnectInfo:
 	var object 		: Object
@@ -20,6 +20,12 @@ class ConnectInfo:
 		if !is_valid() || !is_instance_valid(other_object) || !other_object.has_signal(obj_signal): return
 		
 		other_object.connect(obj_signal, object, obj_func, args)
+
+
+func trigger_after(time : float, connect_info : ConnectInfo) -> void:
+	if time < 0.005: return
+	
+	connect_info.connect_to_object(get_tree().create_timer(time), "timeout")
 
 
 func add_popup(popup : Popup) -> void:
@@ -59,6 +65,7 @@ func is_valid_connect_target(connect_info : ConnectInfo) -> bool:
 		return false
 		
 	return true
+
 
 func popup_error(text : String, trower_name : String = ""):
 	if trower_name == "": add_popup(ErrorPopup.new(text))

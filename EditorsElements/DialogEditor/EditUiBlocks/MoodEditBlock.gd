@@ -8,7 +8,7 @@ onready var mood_shower		= $MoodShower
 
 
 func _ready() -> void:
-	person_picker.connect_to_unicdict(PersonsData.person_dict)
+	person_picker.connect_to_unicdict(PersonsData.get_person_dict())
 	person_picker.set_placeholder(Constants.none_key_name)
 	mood_picker.set_placeholder(Constants.keep_key_name)
 	group_picker.set_placeholder(Constants.keep_key_name)
@@ -79,8 +79,6 @@ func _on_PersonPicker_item_selected(item_name : String) -> void:
 	var blockinfo = get_blockinfo_copy()
 	
 	if blockinfo is NBI_Mood:
-		var person_profile = PersonsData.get_personinfo(item_name)
-		
 		if blockinfo.person == item_name: return
 			
 		reconnect_ui_by_selected_person()

@@ -31,10 +31,10 @@ signal cur_mood_group_changed(mood_group)
 
 
 func _ready():
-	person_list.connect_to_unicdict(PersonsData.person_dict)
-	locale_selector.connect_to_unicdict(LocalesData.locale_dict)
-	font_selector.connect_to_unicdict(FontsData.font_dict)
-	align_selector.update_items(DialogDispetcher.get_align_names_list())
+	person_list.connect_to_unicdict(PersonsData.get_person_dict())
+	locale_selector.connect_to_unicdict(LocalesData.get_locale_dict())
+	font_selector.connect_to_unicdict(FontsData.get_font_dict())
+	align_selector.update_items(DialogStorage.get_align_names_list())
 	person_main_label.visible = false
 	
 
@@ -50,7 +50,7 @@ func load_person_data(person_name : String) -> void:
 		mood_panel.visible 	= true
 		
 		font_selector.select_item(person_info.get_person_localased_font(cur_locale_edit))
-		align_selector.select_item(DialogDispetcher.get_align_name(person_info.defalut_align))
+		align_selector.select_item(DialogStorage.get_align_name(person_info.defalut_align))
 		group_selector.connect_to_unicdict(person_info.get_groups_unicdict())
 		
 		load_mood_list()
@@ -82,7 +82,7 @@ func update_ui() -> void:
 		person_name_id.text = cur_person_edit
 		var pers_name = person_info.get_person_localased_name(cur_locale_edit)
 		var font_name = person_info.get_person_localased_font(cur_locale_edit)
-		var align_name = DialogDispetcher.get_align_name(person_info.defalut_align)
+		var align_name = DialogStorage.get_align_name(person_info.defalut_align)
 		
 		var old_pos = locale_name_line.get_cursor_position()
 		locale_name_line.text = pers_name
@@ -167,7 +167,7 @@ func call_mass_mood_add(paths : PoolStringArray) -> void:
 	
 	for path in paths:
 		var file_name = path.get_file().trim_suffix("." + path.get_extension())
-		var mood_name = FilesData.make_string_nambered(file_name, person_info.get_mood_list())
+		var mood_name = EditLibraly.make_string_nambered(file_name, person_info.get_mood_list())
 		
 		call_mood_add(path, mood_name, false)
 	

@@ -1,0 +1,3 @@
+extends ResourceFormatLoader
+
+class_name ProjectFormatLoader

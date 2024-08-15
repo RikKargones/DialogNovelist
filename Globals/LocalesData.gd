@@ -101,9 +101,7 @@ class EditorLangInfo extends LangInfo:
 		translation_res.add_message(msg_name, msg)
 
 
-var locale_dict 	: UnicDict 	= UnicDict.new()
-var msg_list		: Array 						= []
-var defalut_locales : Array							= ["en", "ru"]
+var defalut_locales : Array		= ["en", "ru"]
 
 
 signal msg_list_updated(upadated_msg_list)
@@ -111,10 +109,15 @@ signal msg_list_updated(upadated_msg_list)
 
 func _ready():
 	setup()
+	
+	
+func get_locale_dict() -> UnicDict:
+	if !is_instance_valid(Project): return UnicDict.new()
+	return Project.get_project_info().locales_data as UnicDict
 
 
 func setup():
-	locale_dict.clear()
+	get_locale_dict().clear()
 	return_defults()
 
 
@@ -124,7 +127,8 @@ func return_defults() -> void:
 
 
 func has_locale_msg(msg_key : String) -> bool:
-	return msg_list.has(msg_key)
+	if !is_instance_valid(Project): return false
+	return Project.get_project_info().locales_msg_list.has(msg_key)
 
 
 func get_locale_long(locale_short : String) -> String:
@@ -133,7 +137,7 @@ func get_locale_long(locale_short : String) -> String:
 
 
 func get_locale(locale_long : String) -> EditorLangInfo:
-	return locale_dict.get_value(locale_long)
+	return get_locale_dict().get_value(locale_long)
 	
 
 func get_locale_msg_text(locale_long : String, msg_key : String) -> String:
@@ -147,7 +151,7 @@ func get_locale_msg_text(locale_long : String, msg_key : String) -> String:
 
 
 func get_locale_defalut_font(locale_long : String) -> String:
-	if !locale_dict.has(locale_long): return ""
+	if !get_locale_dict().has(locale_long): return ""
 	
 	return get_locale(locale_long).defalut_font_name
 
@@ -157,10 +161,10 @@ func add_locale(locale_short : String, font_name = "") -> void:
 	
 	var new_locale = EditorLangInfo.new(locale_short)
 	
-	new_locale.update_msg_list(msg_list)
+	new_locale.update_msg_list(Project.get_project_info().locales_msg_list)
 	connect("msg_list_updated", new_locale, "update_msg_list")
 	
-	locale_dict.add_key(get_locale_long(locale_short), new_locale)
+	get_locale_dict().add_key(get_locale_long(locale_short), new_locale)
 	
 	if font_name != "": set_locale_defalut_font(get_locale_long(locale_short), font_name)
 
@@ -168,23 +172,23 @@ func add_locale(locale_short : String, font_name = "") -> void:
 func add_locales_msg(msg_key : String, defalut = "") -> void:
 	if has_locale_msg(msg_key): return
 	
-	msg_list.append(msg_key)
+	Project.get_project_info().locales_msg_list.append(msg_key)
 	
-	emit_signal("msg_list_updated", msg_list)
+	emit_signal("msg_list_updated", Project.get_project_info().locales_msg_list.duplicate(true))
 	
-	for locale in locale_dict.keys():
+	for locale in get_locale_dict().keys():
 		set_locale_msg(locale, msg_key, defalut)
 
 
 func rename_locale_msg(old_msg_key : String, new_msg_key : String) -> void:
 	if !has_locale_msg(old_msg_key) && has_locale_msg(new_msg_key): return
 	
-	for locale in locale_dict.keys():
+	for locale in get_locale_dict().keys():
 		get_locale(locale).rename_msg(old_msg_key, new_msg_key)
 
 
 func set_locale_msg(locale_long : String, msg_key : String, msg : String) -> void:
-	if !locale_dict.has(locale_long): return
+	if !get_locale_dict().has(locale_long): return
 	
 	var trans : EditorLangInfo = get_locale(locale_long)
 	
@@ -192,8 +196,8 @@ func set_locale_msg(locale_long : String, msg_key : String, msg : String) -> voi
 
 
 func set_locale_defalut_font(locale_long : String, font_name : String) -> void:
-	var lang_info 	: EditorLangInfo			= get_locale(locale_long)
-	var font_info	: FontsData.EditorFontInfo 	= FontsData.get_fontinfo(font_name)
+	var lang_info 	: EditorLangInfo	= get_locale(locale_long)
+	var font_info	: EditorFontInfo 	= FontsData.get_fontinfo(font_name)
 	
 	if !is_instance_valid(lang_info): return
 	
@@ -204,14 +208,14 @@ func set_locale_defalut_font(locale_long : String, font_name : String) -> void:
 func erase_locales_msg(msg_key : String) -> void:
 	if !has_locale_msg(msg_key): return
 	
-	msg_list.erase(msg_key)
+	Project.get_project_info().locales_msg_list.erase(msg_key)
 	
-	emit_signal("msg_list_updated", msg_list)
+	emit_signal("msg_list_updated", Project.get_project_info().locales_msg_list.duplicate(true))
 	
 	
 func erase_locale(locale_long : String) -> void:
 	if locale_long == LocalesNames.en || locale_long == LocalesNames.ru: return
 	
-	locale_dict.erase(locale_long)
+	get_locale_dict().erase(locale_long)
 	
 	

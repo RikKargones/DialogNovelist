@@ -1,22 +1,22 @@
 extends Node	
 
-var dialogs : UnicDict = UnicDict.new()
 
-func _ready():
-	pass
+func get_dialogs_dict() -> UnicDict:
+	if !is_instance_valid(Project): return UnicDict.new()
+	return Project.get_project_info().dialogs_data as UnicDict
 
 
 func add_dialog(dialog_name : String) -> void:
-	dialogs.add_key(dialog_name, EditorDialogInfo.new())
+	get_dialogs_dict().add_key(dialog_name, EditorDialogInfo.new())
 
 
 func get_dialog(dialog_name : String) -> EditorDialogInfo:
-	return dialogs.get_value(dialog_name)
+	return get_dialogs_dict().get_value(dialog_name)
 
 
 func rename_dialog(new_name : String, old_name : String) -> void:
-	dialogs.rename_key(old_name, new_name)
+	get_dialogs_dict().rename_key(old_name, new_name)
 	
 	
 func remove_dialog(dialog_name : String) -> void:
-	dialogs.erase(dialog_name)
+	get_dialogs_dict().erase(dialog_name)

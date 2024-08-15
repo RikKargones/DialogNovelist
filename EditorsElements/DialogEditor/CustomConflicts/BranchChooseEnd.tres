@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://EditorsElements/DialogEditor/BlockUiPathInfo/Branch Block.tres" type="Resource" id=1]
+[ext_resource path="res://EditorsElements/DialogEditor/BlockUiPathInfo/Choose Block.tres" type="Resource" id=2]
+[ext_resource path="res://EditorsElements/DialogEditor/CustomConflicts/ConflictCheck.gd" type="Script" id=3]
+[ext_resource path="res://EditorsElements/DialogEditor/BlockUiPathInfo/Dialog End.tres" type="Resource" id=4]
+
+[resource]
+script = ExtResource( 3 )
+conflict_pck = [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 4 ) ]

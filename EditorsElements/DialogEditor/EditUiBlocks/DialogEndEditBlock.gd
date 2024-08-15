@@ -7,14 +7,14 @@ const no_other_dialogs 	= "<No other dialogs!>"
 const no_start_points 	= "<No start points!>"
 
 func _ready():
-	dialog_pick.connect_to_unicdict(DialogsData.dialogs)
-	DialogsData.dialogs.connect("key_aded", self, "on_dialog_change")
-	DialogsData.dialogs.connect("key_deleted", self, "on_dialog_change")
+	dialog_pick.connect_to_unicdict(DialogsData.get_dialogs_dict())
+	DialogsData.get_dialogs_dict().connect("key_aded", self, "on_dialog_change")
+	DialogsData.get_dialogs_dict().connect("key_deleted", self, "on_dialog_change")
 	on_dialog_change()
 
 
 func on_dialog_change(_key : String = "") -> void:
-	if DialogsData.dialogs.keys().size() < 2: dialog_pick.set_placeholder(no_other_dialogs)
+	if DialogsData.get_dialogs_dict().keys().size() < 2: dialog_pick.set_placeholder(no_other_dialogs)
 	else: dialog_pick.set_placeholder("")
 
 

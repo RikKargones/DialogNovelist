@@ -14,18 +14,10 @@ func on_block_list_set(new_block_list : Array) -> void:
 		var block : DialogEditorUiPathBase = new_block_list[block_id]
 		
 		if is_instance_valid(block):
-			var has_conflict : bool = false
-			
-			for other_block in final_dict:
-				var other_ui_path : DialogEditorUiPathBase = other_block
-				var ui_path_name : String = block.resource_path.trim_suffix(".tres").rsplit("/", false, 1)[1] 
-				
-				if other_ui_path.conflict_blocks.has(ui_path_name):
-					has_conflict = true
-					break
-								
-			if has_conflict: continue
-		elif block_id != new_block_list.size() - 1:
+			if is_instance_valid(block.conflicts) && block.conflicts.is_pck_not_right(final_dict):
+				continue
+		else:
+			final_dict.append(null)
 			continue
 			
 		final_dict.append(block)
@@ -34,7 +26,17 @@ func on_block_list_set(new_block_list : Array) -> void:
 	
 	on_sinhronization_list_set(sinhronization_list)
 	property_list_changed_notify()
+
+
+func has_inside_conflicts() -> bool:
+	for block_idx in block_list.size():
+		var block_pck : DialogEditorUiPathBase = block_list[block_idx]
+		
+		if is_instance_valid(block_pck) && is_instance_valid(block_pck.conflicts):
+			if block_pck.conflicts.is_conflicting(block_list): return true
 	
+	return false
+
 	
 func on_sinhronization_list_set(new_sinhro_list : Dictionary) -> void:
 	var final_arr : Dictionary

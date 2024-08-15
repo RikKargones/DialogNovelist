@@ -1,2 +1,2 @@
 # DialogNovelist
- Редактор диалогов для Godot 3.5
+ Standlone Godot 3.5 dialog editor.
